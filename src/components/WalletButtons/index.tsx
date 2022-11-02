@@ -8,6 +8,16 @@ import {
 import { useAppDispatch } from '@hooks/'
 import { setSelectedWallet } from '@redux/slices/walletSlice'
 import { useWeb3React } from '@web3-react/core'
+import GoldButton from '@components/Buttons/GoldButton'
+import styled from '@emotion/styled'
+
+const ButtonsContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  width: '310px',
+  justifyContent: 'space-between',
+}))
 
 type Props = {
   wallets: ConnectionType[]
@@ -51,22 +61,22 @@ const WalletButtons: FC<Props> = props => {
   }
 
   return (
-    <div className="buttons_container">
+    <ButtonsContainer>
       {!account ? (
         props.wallets.map(walletType => {
           return (
-            <button
+            <GoldButton
               onClick={() => tryActivation(getConnection(walletType).connector)}
               key={walletType}
             >
               Connect {getConnectionName(walletType)}
-            </button>
+            </GoldButton>
           )
         })
       ) : (
-        <button onClick={onDisconnectClick}>Disconnect</button>
+        <GoldButton onClick={onDisconnectClick}>Disconnect</GoldButton>
       )}
-    </div>
+    </ButtonsContainer>
   )
 }
 
