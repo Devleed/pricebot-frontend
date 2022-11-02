@@ -39,14 +39,14 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           // palette values for light mode
           primary: {
-            main: '#ca1e44',
+            main: '#fcc200',
           },
           background: {
-            default: '#cccccc',
+            default: '#28282B',
             paper: '#e5e5e5',
           },
           text: {
-            primary: '#484644',
+            primary: '#f5f5f5',
             secondary: '#fff',
           },
         }
