@@ -1,9 +1,11 @@
 import React, { FC, useMemo } from 'react'
-import App from '@components/App'
+import Home from '@pages/Home'
 import { Web3ReactHooks, Web3ReactProvider } from '@web3-react/core'
 import { Connector } from '@web3-react/types'
 import { Connection, getConnectionName } from '../../connection'
 import useOrderedConnections from '../../hooks/useOrderedConnections'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Configuration from '@pages/Configuration'
 
 type Props = unknown
 
@@ -24,7 +26,12 @@ const Web3Provider: FC<Props> = () => {
 
   return (
     <Web3ReactProvider connectors={connectors} key={key}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/configure" element={<Configuration />} />
+        </Routes>
+      </BrowserRouter>
     </Web3ReactProvider>
   )
 }

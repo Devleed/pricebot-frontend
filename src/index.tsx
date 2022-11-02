@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { store } from '@redux/configureStore'
 import Web3Provider from '@components/Web3Provider'
+import MuiTheme from './theme'
 
 // WalletConnect does not work with webpack 5 i.e. react@18+
 // This is required to make it work
@@ -13,7 +14,9 @@ import { Buffer } from 'buffer'
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Web3Provider />
+      <MuiTheme>
+        <Web3Provider />
+      </MuiTheme>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
