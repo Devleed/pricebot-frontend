@@ -1,29 +1,56 @@
-import React, { FC } from 'react'
-import { Ember, Erc20, Kolnet } from '@contracts/types'
+import React, { FC, useState } from 'react'
+import GoldButton from '@components/Buttons/GoldButton'
+import Input from '@components/Input'
+import { styled } from '@mui/material/styles'
 import { useWeb3React } from '@web3-react/core'
-import { AvailableContracts } from '../../hooks/useContract/types'
-import { useContract } from '../../hooks/useContract'
+import { ethers } from 'ethers'
+
+const Body = styled('div')(({ theme }) => ({
+  padding: '20px',
+}))
 
 type Props = Record<string, unknown>
 
 const Configuration: FC<Props> = () => {
   const { provider, account } = useWeb3React()
-  const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
-  const kolnetContract = useContract<Kolnet>(AvailableContracts.KOLNET)
-  const emberContract = useContract<Ember>(AvailableContracts.EMBER)
+  const [ethVal, setEthVal] = useState(0)
 
-  console.log('account -', account, provider)
+  const transferETH = async () => {
+    if (provider && account) {
+      const gasPrice = await provider.getGasPrice()
 
-  const tryTransfer = async () => {
-    if (tusdtContract) {
-      tusdtContract.transfer(
-        '0x09050568Ed00123dA7d9250c8A57AD393EeD8307',
-        '1000000',
-      )
+      const tx = {
+        from: account,
+        to: '0x716a02EFA4C6e9850D744472e6f2BB4ff24e8B9b',
+        value: ethers.utils.parseEther(String(ethVal)),
+        nonce: provider.getTransactionCount(account, 'latest'),
+        gasLimit: 100000, // 100000
+        gasPrice: ethers.utils.hexlify(gasPrice.toNumber()),
+      }
+
+      const signer = provider.getSigner()
+
+      const transferResult = await signer.sendTransaction(tx)
+
+      console.log(transferResult)
     }
   }
 
-  return <div className="app_container">Configure</div>
+  return (
+    <Body>
+      <div>
+        <Input
+          type="number"
+          onChange={e => setEthVal(Number(e.target.value))}
+          value={ethVal}
+        />
+        <span style={{ marginLeft: 10 }}>ETH</span>
+      </div>
+      <GoldButton onClick={transferETH} style={{ marginTop: 10 }}>
+        Fund Bot
+      </GoldButton>
+    </Body>
+  )
 }
 
 export default Configuration

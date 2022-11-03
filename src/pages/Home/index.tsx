@@ -5,14 +5,37 @@ import { useWeb3React } from '@web3-react/core'
 import { AvailableContracts } from '../../hooks/useContract/types'
 import { useContract } from '../../hooks/useContract'
 import WalletButtons from '@components/WalletButtons'
+import { styled } from '@mui/material/styles'
+import GoldButton from '@components/Buttons/GoldButton'
+import { useNavigate } from 'react-router-dom'
 
 type Props = Record<string, unknown>
+
+const Navbar = styled('div')(({ theme }) => ({
+  padding: '20px',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}))
+
+const Title = styled('span')(({ theme }) => ({
+  fontSize: '22px',
+  color: theme.palette.primary.main,
+  cursor: 'pointer',
+}))
+
+const Body = styled('div')(({ theme }) => ({
+  padding: '20px',
+}))
 
 const Home: FC<Props> = () => {
   const { provider, account } = useWeb3React()
   const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
   const kolnetContract = useContract<Kolnet>(AvailableContracts.KOLNET)
   const emberContract = useContract<Ember>(AvailableContracts.EMBER)
+
+  const navigate = useNavigate()
 
   console.log('account -', account, provider)
 
@@ -27,14 +50,18 @@ const Home: FC<Props> = () => {
 
   return (
     <div className="app_container">
-      {/* <h4>Counter App</h4>
-      <Counter {...counterProps} />
-      <Stake />
-      <JestDemo id="2" /> */}
-      <WalletButtons
-        wallets={[ConnectionType.INJECTED, ConnectionType.WALLET_CONNECT]}
-      />
-      <button onClick={tryTransfer}>send</button>
+      <Navbar>
+        <Title>BFx</Title>
+        <WalletButtons
+          wallets={[ConnectionType.INJECTED, ConnectionType.WALLET_CONNECT]}
+        />
+      </Navbar>
+      <Body>
+        <GoldButton onClick={() => navigate('/configure')}>
+          Configure
+        </GoldButton>
+      </Body>
+      {/* <button onClick={tryTransfer}>send</button> */}
     </div>
   )
 }

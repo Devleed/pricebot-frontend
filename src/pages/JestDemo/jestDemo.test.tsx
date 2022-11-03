@@ -59,7 +59,7 @@
 // ! USING RTL
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import JestDemo from '@components/JestDemo'
+import JestDemo from '@pages/JestDemo'
 import '@testing-library/jest-dom'
 
 describe('JestDemo', () => {
