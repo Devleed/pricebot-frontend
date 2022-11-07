@@ -15,7 +15,7 @@ const ButtonsContainer = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  width: '310px',
+  // width: '310px',
   justifyContent: 'space-between',
 }))
 
@@ -63,11 +63,12 @@ const WalletButtons: FC<Props> = props => {
   return (
     <ButtonsContainer>
       {!account ? (
-        props.wallets.map(walletType => {
+        props.wallets.map((walletType, i) => {
           return (
             <GoldButton
               onClick={() => tryActivation(getConnection(walletType).connector)}
               key={walletType}
+              style={{ marginRight: props.wallets.length - 1 === i ? 0 : 10 }}
             >
               Connect {getConnectionName(walletType)}
             </GoldButton>

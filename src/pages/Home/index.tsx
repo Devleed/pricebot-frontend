@@ -11,20 +11,6 @@ import { useNavigate } from 'react-router-dom'
 
 type Props = Record<string, unknown>
 
-const Navbar = styled('div')(({ theme }) => ({
-  padding: '20px',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-}))
-
-const Title = styled('span')(({ theme }) => ({
-  fontSize: '22px',
-  color: theme.palette.primary.main,
-  cursor: 'pointer',
-}))
-
 const Body = styled('div')(({ theme }) => ({
   padding: '20px',
 }))
@@ -50,12 +36,12 @@ const Home: FC<Props> = () => {
 
   return (
     <div className="app_container">
-      <Navbar>
+      {/* <Navbar>
         <Title>BFx</Title>
         <WalletButtons
           wallets={[ConnectionType.INJECTED, ConnectionType.WALLET_CONNECT]}
         />
-      </Navbar>
+      </Navbar> */}
       <Body>
         <GoldButton onClick={() => navigate('/configure')}>
           Configure
