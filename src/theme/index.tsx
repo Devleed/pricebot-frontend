@@ -39,7 +39,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           // palette values for light mode
           primary: {
-            main: '#fcc200',
+            main: '#A18841',
           },
           background: {
             default: '#28282B',
@@ -53,7 +53,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       : {
           // palette values for dark mode
           primary: {
-            main: '#03ca55',
+            main: '#A18841',
           },
           background: {
             default: '#122138',
