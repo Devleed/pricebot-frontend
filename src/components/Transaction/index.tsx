@@ -1,32 +1,26 @@
 import OutlinedButton from '@components/Buttons/OutlinedButton'
-import { styled } from '@mui/material/styles'
+import { styled, darken } from '@mui/material/styles'
 import { Tx } from '@pages/Home'
+import { shortenAddress } from '@utils/'
 import moment from 'moment'
 import React from 'react'
 
-const shortenAddress = (address: string) => {
-  return (
-    address.substring(0, 10) +
-    '...' +
-    address.substring(address.length - 10, address.length)
-  )
-}
-
 const SingleTxStyle = styled('div')(({ theme }) => ({
-  marginBottom: 10,
-  //   padding: 10,
+  //   marginBottom: 5,
+  paddingVertical: 5,
   display: 'flex',
   flexDirection: 'row',
   cursor: 'pointer',
   color: 'white',
   alignItems: 'center',
   justifyContent: 'space-between',
-  border: '1px solid gray',
+  //   border: '1px solid gray',
   transition: 'all 0.5s ease',
   borderRadius: '5px',
   padding: 10,
   '&:hover': {
-    borderColor: theme.palette.primary.main,
+    // borderColor: theme.palette.primary.main,
+    backgroundColor: darken(theme.palette.background.paper, 0.5),
   },
   '& *': {
     width: '17%',

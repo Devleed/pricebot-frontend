@@ -10,6 +10,8 @@ import { setSelectedWallet } from '@redux/slices/walletSlice'
 import { useWeb3React } from '@web3-react/core'
 import GoldButton from '@components/Buttons/GoldButton'
 import styled from '@emotion/styled'
+import OutlinedButton from '@components/Buttons/OutlinedButton'
+import { shortenAddress } from '@utils/'
 
 const ButtonsContainer = styled('div')(() => ({
   display: 'flex',
@@ -75,7 +77,23 @@ const WalletButtons: FC<Props> = props => {
           )
         })
       ) : (
-        <GoldButton onClick={onDisconnectClick}>Disconnect</GoldButton>
+        <>
+          <OutlinedButton
+            style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+            onClick={() => {
+              navigator.clipboard.writeText(account)
+              alert('Address copied to clipboard')
+            }}
+          >
+            {shortenAddress(account, 3, 6)}
+          </OutlinedButton>
+          <GoldButton
+            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+            onClick={onDisconnectClick}
+          >
+            Disconnect
+          </GoldButton>
+        </>
       )}
     </ButtonsContainer>
   )

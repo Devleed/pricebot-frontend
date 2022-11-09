@@ -1,13 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
-import { ConnectionType, SupportedWallets } from '../../connection'
 import { Ember, Erc20, Kolnet } from '@contracts/types'
 import { useWeb3React } from '@web3-react/core'
 import { AvailableContracts } from '../../hooks/useContract/types'
 import { useContract } from '../../hooks/useContract'
-import WalletButtons from '@components/WalletButtons'
 import { styled } from '@mui/material/styles'
-import GoldButton from '@components/Buttons/GoldButton'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { chainIdToTxlistUrl } from '../../constants/etherscan'
 import Transaction from '@components/Transaction'
@@ -22,10 +18,15 @@ const TableHeader = styled('div')(({ theme }) => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   padding: 10,
-
+  backgroundColor: theme.palette.background.paper,
+  borderTopLeftRadius: 10,
+  borderTopRightRadius: 10,
   '& h4': {
     width: '17%',
   },
+}))
+const TransactionHistory = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
 }))
 
 export interface Tx {
@@ -87,19 +88,21 @@ const Home: FC<Props> = () => {
               <h4>Value</h4>
               <h4>Status</h4>
             </TableHeader>
-            {txList.map(tx => {
-              return (
-                <a
-                  style={{ outline: 'none', textDecoration: 'none' }}
-                  href={`https://goerli.etherscan.io/tx/${tx.hash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={tx.hash}
-                >
-                  <Transaction tx={tx} />
-                </a>
-              )
-            })}
+            <TransactionHistory>
+              {txList.map(tx => {
+                return (
+                  <a
+                    style={{ outline: 'none', textDecoration: 'none' }}
+                    href={`https://goerli.etherscan.io/tx/${tx.hash}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    key={tx.hash}
+                  >
+                    <Transaction tx={tx} />
+                  </a>
+                )
+              })}
+            </TransactionHistory>
           </div>
         </div>
       </Body>

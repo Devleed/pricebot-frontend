@@ -42,8 +42,8 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             main: '#A18841',
           },
           background: {
-            default: '#28282B',
-            paper: '#e5e5e5',
+            default: '#0A0D10',
+            paper: '#191915',
           },
           text: {
             primary: '#f5f5f5',
@@ -56,8 +56,8 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             main: '#A18841',
           },
           background: {
-            default: '#122138',
-            paper: '#0e1d32',
+            default: '#0A0D10',
+            paper: '#191915',
           },
           text: {
             primary: '#7d8592',
