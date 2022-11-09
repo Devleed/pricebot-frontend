@@ -24,7 +24,7 @@ interface BotConfig {
 }
 
 const Configuration: FC<Props> = () => {
-  const { provider, account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const [triggerDeviation, setTriggerDeviation] = useState(0)
   const [slippageTolerance, setSlippageTolerance] = useState(0)
 
@@ -35,6 +35,8 @@ const Configuration: FC<Props> = () => {
         const { data }: { data: BotConfig } = await axios.get(
           `bot/config/${chainId}`,
         )
+
+        console.log('data -', data)
 
         setTriggerDeviation(data.triggerDeviation)
         setSlippageTolerance(data.slippageTolerance)

@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles'
+import { darken, styled } from '@mui/material/styles'
 
 export default styled('button')(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -7,4 +7,10 @@ export default styled('button')(({ theme }) => ({
   padding: '10px',
   cursor: 'pointer',
   borderRadius: '5px',
+  transition: 'all 0.25s ease',
+
+  '&:hover': {
+    color: `${darken(theme.palette.primary.main, 0.25)}`,
+    border: `1px solid ${darken(theme.palette.primary.main, 0.25)}`,
+  },
 }))

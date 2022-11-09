@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import WalletButtons from '@components/WalletButtons'
 import { ConnectionType } from '../../connection'
@@ -13,6 +13,8 @@ import { Box } from '@mui/system'
 import Form from '@components/Form'
 import ModalBody from '@components/ModalBody'
 import Label from '@components/Label'
+import GoldenTitle from '@components/Titles/GoldenTitle'
+import { shortenAddress } from '@utils/'
 
 const NavbarTheme = styled('div')(({ theme }) => ({
   padding: '20px',
@@ -33,9 +35,16 @@ const Navbar = () => {
   const { provider, account } = useWeb3React()
 
   const [fundModalOpen, setFundModalOpen] = useState(true)
-  const [ethVal, setEthVal] = useState(0)
+  const [ethVal, setEthVal] = useState('')
 
   const navigate = useNavigate()
+
+  const fundBotInputRef = useRef<HTMLInputElement>(null)
+
+  // useEffect(() => {
+  //   console.log(fundModalOpen, fundBotInputRef.current)
+  //   fundModalOpen && fundBotInputRef.current?.focus()
+  // }, [fundModalOpen, fundBotInputRef.current])
 
   async function transferETH() {
     if (provider && account) {
@@ -88,13 +97,16 @@ const Navbar = () => {
         aria-describedby="modal-modal-description"
       >
         <ModalBody>
+          <GoldenTitle>Fund {shortenAddress(account || '', 2, 4)}</GoldenTitle>
           <Form>
-            <Label>Fund Eth</Label>
             <Input
-              type="number"
+              type="text"
               value={ethVal}
-              onChange={e => setEthVal(Number(e.target.value))}
-              placeholder="Fund Bot"
+              autoFocus
+              onChange={e =>
+                !isNaN(Number(e.target.value)) && setEthVal(e.target.value)
+              }
+              placeholder="ETH"
             />
             <GoldButton
               style={{
