@@ -13,4 +13,5 @@ export default styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 10,
+  boxShadow: `17px 19px 37px -10px black`,
 }))

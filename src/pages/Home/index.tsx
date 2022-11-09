@@ -7,6 +7,9 @@ import { styled } from '@mui/material/styles'
 import axios from 'axios'
 import { chainIdToTxlistUrl } from '../../constants/etherscan'
 import Transaction from '@components/Transaction'
+import { useAppSelector } from '@hooks/'
+import { useDispatch } from 'react-redux'
+import { setTxHistory, Tx } from '@redux/slices/walletSlice'
 
 type Props = Record<string, unknown>
 
@@ -29,41 +32,36 @@ const TransactionHistory = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-export interface Tx {
-  hash: string
-  timeStamp: string
-  to: string
-  txreceipt_status: string
-  value: string
-  from: string
-}
-
 const Home: FC<Props> = () => {
   const { provider, account, chainId } = useWeb3React()
-  const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
-  const kolnetContract = useContract<Kolnet>(AvailableContracts.KOLNET)
-  const emberContract = useContract<Ember>(AvailableContracts.EMBER)
+  // const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
+  // const kolnetContract = useContract<Kolnet>(AvailableContracts.KOLNET)
+  // const emberContract = useContract<Ember>(AvailableContracts.EMBER)
 
-  const [txList, setTxList] = useState<Tx[]>([])
+  const txList = useAppSelector(state => state.wallet.txHistory)
+
+  const dispatch = useDispatch()
 
   console.log('account -', account, provider)
 
   useEffect(() => {
-    if (chainId) {
+    if (chainId && txList.length === 0) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
         const { data }: { data: { result: Tx[] } } = await axios.get(
           chainIdToTxlistUrl[chainId as keyof typeof chainIdToTxlistUrl],
         )
 
-        console.log(data.result)
-
-        setTxList(
-          data.result.sort((a, b) => Number(b.timeStamp) - Number(a.timeStamp)),
+        dispatch(
+          setTxHistory(
+            data.result.sort(
+              (a, b) => Number(b.timeStamp) - Number(a.timeStamp),
+            ),
+          ),
         )
       })()
     }
-  }, [chainId])
+  }, [chainId, txList])
 
   return (
     <div className="app_container">

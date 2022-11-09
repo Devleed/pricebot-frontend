@@ -1,6 +1,6 @@
 import OutlinedButton from '@components/Buttons/OutlinedButton'
 import { styled, darken } from '@mui/material/styles'
-import { Tx } from '@pages/Home'
+import { Tx } from '@redux/slices/walletSlice'
 import { shortenAddress } from '@utils/'
 import moment from 'moment'
 import React from 'react'
@@ -16,7 +16,6 @@ const SingleTxStyle = styled('div')(({ theme }) => ({
   justifyContent: 'space-between',
   //   border: '1px solid gray',
   transition: 'all 0.5s ease',
-  borderRadius: '5px',
   padding: 10,
   '&:hover': {
     // borderColor: theme.palette.primary.main,
