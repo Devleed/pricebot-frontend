@@ -1,5 +1,9 @@
 import { styled } from '@mui/material/styles'
 
-export default styled('h3')(({ theme }) => ({
-  color: theme.palette.primary.main,
-}))
+export default styled('span')<{ size?: number; weight?: number }>(
+  ({ theme, size, weight }) => ({
+    color: theme.palette.primary.main,
+    fontSize: size || 20,
+    fontWeight: weight || 'bold',
+  }),
+)

@@ -64,7 +64,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <ModalBody>
-        <GoldenTitle>
+        <GoldenTitle style={{ marginTop: 20 }}>
           Configure {shortenAddress(BOT_ADDRESS || '', 2, 4)}
         </GoldenTitle>
         <Form>

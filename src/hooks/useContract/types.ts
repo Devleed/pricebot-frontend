@@ -2,12 +2,7 @@ import { Interface } from '@ethersproject/abi'
 import { Provider } from '@ethersproject/providers'
 import { Signer } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import {
-  Ember__factory,
-  Erc20__factory,
-  Kolnet__factory,
-  SocialBlocks__factory,
-} from '@contracts/types'
+import { Erc20__factory } from '@contracts/types'
 
 interface Factory {
   readonly abi: unknown
@@ -16,15 +11,13 @@ interface Factory {
 }
 
 export enum AvailableContracts {
-  TUSDT = '0xD92E713d051C37EbB2561803a3b5FBAbc4962431',
-  KOLNET = '0x0bF6951d389001A45BBa5533DfF34B0bdEFbAcA0',
-  EMBER = '0x7fAd81d31958af935aDF7C21d452cF315E07C2F0',
-  SOCIAL_BLOCKS = '0x7698b5D7869bC1A5643C4E7261Dd621cE7E8D6fF',
+  USDT = '0x89b913d392e7E336E5de3D5424Cf6Dc2B30F1b72',
+  WETH = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+  GOLD = '0xB619e873167f00abea1D07988D387b513501D1Ef',
 }
 
 export const addressToFactoryMapping: { [key: string]: Factory } = {
-  [AvailableContracts.TUSDT]: Erc20__factory,
-  [AvailableContracts.KOLNET]: Kolnet__factory,
-  [AvailableContracts.EMBER]: Ember__factory,
-  [AvailableContracts.SOCIAL_BLOCKS]: SocialBlocks__factory,
+  [AvailableContracts.USDT]: Erc20__factory,
+  [AvailableContracts.WETH]: Erc20__factory,
+  [AvailableContracts.GOLD]: Erc20__factory,
 }

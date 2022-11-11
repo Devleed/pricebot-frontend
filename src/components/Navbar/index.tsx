@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import OutlinedButton from '@components/Buttons/OutlinedButton'
 import FundBotModal from '@components/Modals/FundBotModal'
 import ConfigBotModal from '@components/Modals/ConfigModal'
+import logos from '@assets/'
 
 const NavbarTheme = styled('div')(({ theme }) => ({
   padding: '20px',
@@ -26,8 +27,6 @@ const Navbar = () => {
   const [fundModalOpen, setFundModalOpen] = useState(false)
   const [configureModalOpen, setConfigureModalOpen] = useState(false)
 
-  const [network, setNetwork] = useState('goerli')
-
   const navigate = useNavigate()
 
   return (
@@ -35,7 +34,11 @@ const Navbar = () => {
       <div
         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
       >
-        <Title onClick={() => navigate('/')}>BFx</Title>
+        <img
+          onClick={() => navigate('/')}
+          src={logos.Logo}
+          style={{ width: 180, cursor: 'pointer' }}
+        />
         <OutlinedButton
           style={{ marginLeft: 20 }}
           onClick={() => setConfigureModalOpen(true)}

@@ -1,6 +1,6 @@
 import OutlinedButton from '@components/Buttons/OutlinedButton'
 import { styled, darken } from '@mui/material/styles'
-import { Tx } from '@redux/slices/walletSlice'
+import { Tx } from '@redux/slices/botSlice'
 import { shortenAddress } from '@utils/'
 import moment from 'moment'
 import React from 'react'
