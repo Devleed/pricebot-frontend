@@ -17,7 +17,7 @@ export const numberFormatter = (num: string) => {
 
 export const sixDigitsFormatter = (num: number) => {
   if (num < 1) {
-    return parseFloat(num.toFixed(2))
+    return parseFloat(num.toPrecision(2))
   }
   if (num <= 9999.99) {
     const amount = truncateExact(num, 2)

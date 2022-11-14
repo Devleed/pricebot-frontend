@@ -15,6 +15,7 @@ const AssetsContainer = styled('div')(({ theme }) => ({
   padding: 20,
   backgroundColor: theme.palette.background.paper,
   borderRadius: 10,
+  width: 300,
 }))
 
 const AssetsList = styled('div')(({ theme }) => ({

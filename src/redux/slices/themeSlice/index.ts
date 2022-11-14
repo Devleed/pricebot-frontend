@@ -7,7 +7,7 @@ const initialState: ThemeState = {
 }
 
 export const themeSlice = createSlice({
-  name: 'counter',
+  name: 'theme',
   initialState,
   reducers: {
     setTheme: (state, action: PayloadAction<PaletteMode>) => {

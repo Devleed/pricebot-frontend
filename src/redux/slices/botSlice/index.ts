@@ -46,5 +46,3 @@ export const botSlice = createSlice({
 export const { setTxHistory, setAssets } = botSlice.actions
 
 export default botSlice.reducer
-
-// export * as ActionCreators from './counter.actions'
