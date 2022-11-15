@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import TransactionHistory from '@components/TransactionHistory'
 import BotAssets from '@components/BotAssets'
@@ -7,7 +7,10 @@ import keccak256 from 'keccak256'
 import { useDispatch } from 'react-redux'
 import { setSignature } from '@redux/slices/walletSlice'
 import { useAppSelector } from '@hooks/'
-import GoldPrice from '@components/GoldPrice'
+import StoneXVaultInfo from '@components/StoneXVaultInfo'
+import DEXInfo from '@components/DEXInfo'
+import LiabilityInfo from '@components/LiabilityInfo'
+import axios from '../../utils/axios'
 
 type Props = Record<string, unknown>
 
@@ -15,12 +18,40 @@ const Body = styled('div')(({ theme }) => ({
   padding: '20px',
 }))
 
+const BoxContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+
+  '& > *': {
+    marginRight: 10,
+  },
+}))
+
+type PriceInfo = {
+  stoneXPrice: number
+  stoneXReserves: number
+  dexGoldPrice: number
+  liability: number
+  goldMinted: number
+}
+
 const Home: FC<Props> = () => {
+  const [priceInfo, setPriceInfo] = useState<PriceInfo | null>(null)
+
   const { provider } = useWeb3React()
 
   const dispatch = useDispatch()
 
   const signature = useAppSelector(state => state.wallet.signature)
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(async () => {
+      const { data }: { data: PriceInfo } = await axios.get('/price')
+
+      setPriceInfo(data)
+    })()
+  }, [])
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -40,16 +71,29 @@ const Home: FC<Props> = () => {
     })()
   }, [provider, signature])
 
+  if (!priceInfo) return null
+
   return (
     <div className="app_container">
       <Body>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ marginRight: 10 }}>
-              <BotAssets />
-            </div>
-            <GoldPrice />
-          </div>
+          <BoxContainer>
+            <BotAssets />
+            <StoneXVaultInfo
+              price={priceInfo.stoneXPrice}
+              reserves={priceInfo.stoneXReserves}
+            />
+            <DEXInfo
+              price={priceInfo.dexGoldPrice}
+              reserves={priceInfo.goldMinted}
+            />
+            <LiabilityInfo
+              liability={priceInfo.liability}
+              setLiability={newLiability =>
+                setPriceInfo({ ...priceInfo, liability: newLiability })
+              }
+            />
+          </BoxContainer>
           <div></div>
         </div>
         <TransactionHistory />

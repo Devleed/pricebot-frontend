@@ -10,18 +10,12 @@ import { Erc20 } from '@contracts/types'
 import { ethers, providers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import { setAssets } from '@redux/slices/botSlice'
-
-const AssetsContainer = styled('div')(({ theme }) => ({
-  padding: 20,
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: 10,
-  width: 300,
-}))
+import HomeBox from '@components/HomeBox'
 
 const AssetsList = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  marginTop: 20,
+
   width: 240,
 
   '& > *': {
@@ -93,10 +87,7 @@ const BotAssets = () => {
   }, [goldContract, usdtContract, provider])
 
   return (
-    <AssetsContainer>
-      <GoldenTitle size={30}>
-        {shortenAddress(BOT_ADDRESS, 2, 4)} Assets
-      </GoldenTitle>
+    <HomeBox title={`${shortenAddress(BOT_ADDRESS, 2, 4)} Assets`}>
       <AssetsList>
         <AssetItem
           href={
@@ -136,7 +127,7 @@ const BotAssets = () => {
           </AssetItem>
         </div>
       </AssetsList>
-    </AssetsContainer>
+    </HomeBox>
   )
 }
 

@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles'
 
-export default styled('span')<{ size?: number; weight?: number }>(
+export default styled('div')<{ size?: number; weight?: number }>(
   ({ theme, size, weight }) => ({
     color: theme.palette.primary.main,
     fontSize: size || 20,
