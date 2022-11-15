@@ -7,6 +7,7 @@ const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderRadius: 10,
   width: 300,
+  height: 229,
 }))
 
 type Props = {
@@ -17,7 +18,6 @@ const HomeBox: React.FC<Props> = ({ title, children }) => {
   return (
     <Container>
       <GoldenTitle size={30} style={{ marginBottom: 20 }}>
-        {/* {shortenAddress(BOT_ADDRESS, 2, 4)} Assets */}
         {title}
       </GoldenTitle>
       {children}

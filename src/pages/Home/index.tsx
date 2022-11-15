@@ -21,6 +21,8 @@ const Body = styled('div')(({ theme }) => ({
 const BoxContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
+  flexWrap: 'wrap',
+  width: '50%',
 
   '& > *': {
     marginRight: 10,
@@ -79,20 +81,24 @@ const Home: FC<Props> = () => {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <BoxContainer>
             <BotAssets />
-            <StoneXVaultInfo
-              price={priceInfo.stoneXPrice}
-              reserves={priceInfo.stoneXReserves}
-            />
-            <DEXInfo
-              price={priceInfo.dexGoldPrice}
-              reserves={priceInfo.goldMinted}
-            />
             <LiabilityInfo
               liability={priceInfo.liability}
               setLiability={newLiability =>
                 setPriceInfo({ ...priceInfo, liability: newLiability })
               }
             />
+            <div style={{ marginTop: 10 }}>
+              <StoneXVaultInfo
+                price={priceInfo.stoneXPrice}
+                reserves={priceInfo.stoneXReserves}
+              />
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <DEXInfo
+                price={priceInfo.dexGoldPrice}
+                reserves={priceInfo.goldMinted}
+              />
+            </div>
           </BoxContainer>
           <div></div>
         </div>
