@@ -13,8 +13,8 @@ import Label from '@components/Label'
 import RadioGroup from '@components/RadioGroup'
 
 import { BOT_ADDRESS } from '../../constants/etherscan'
-import axios from '../../utils/axios'
 import { useAppSelector } from '@hooks/'
+import useAxios from '../../hooks/useAxios'
 
 type Props = {
   open: boolean
@@ -28,6 +28,8 @@ interface BotConfig {
 }
 
 const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
+  const axios = useAxios()
+
   const { chainId } = useWeb3React()
 
   const [triggerDeviation, setTriggerDeviation] = useState(0)
@@ -37,19 +39,11 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const signature = useAppSelector(state => state.wallet.signature)
 
   async function updateBotConfig() {
-    const { data } = await axios.patch(
-      `bot/config/update/1`,
-      {
-        triggerDeviation,
-        slippageTolerance,
-        gasPrice: gasTierSelected,
-      },
-      {
-        headers: {
-          'x-vrs-signature': signature!,
-        },
-      },
-    )
+    const { data } = await axios.patch(`bot/config/update/1`, {
+      triggerDeviation,
+      slippageTolerance,
+      gasPrice: gasTierSelected,
+    })
 
     setTriggerDeviation(data.triggerDeviation)
     setSlippageTolerance(data.slippageTolerance)
@@ -60,11 +54,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
     if (signature) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
-        const { data }: { data: BotConfig } = await axios.get(`bot/config/1`, {
-          headers: {
-            'x-vrs-signature': signature,
-          },
-        })
+        const { data }: { data: BotConfig } = await axios.get(`bot/config/1`)
 
         console.log('data -', data)
 

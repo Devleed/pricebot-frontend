@@ -4,10 +4,10 @@ import Input from '@components/Input'
 import { styled } from '@mui/material/styles'
 import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
-import axios from '../../utils/axios'
 import Form from '@components/Form'
 import Label from '@components/Label'
 import InputContainer from '@components/InputContainer'
+import useAxios from '../../hooks/useAxios'
 
 const Body = styled('div')(({ theme }) => ({
   padding: '20px',
@@ -25,6 +25,9 @@ interface BotConfig {
 
 const Configuration: FC<Props> = () => {
   const { chainId } = useWeb3React()
+
+  const axios = useAxios()
+
   const [triggerDeviation, setTriggerDeviation] = useState(0)
   const [slippageTolerance, setSlippageTolerance] = useState(0)
 

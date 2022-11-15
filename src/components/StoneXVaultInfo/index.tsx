@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { darken, styled } from '@mui/material/styles'
-import axios from '../../utils/axios'
 import { sixDigitsFormatter } from '@utils/'
 import moment from 'moment'
 import HomeBox from '@components/HomeBox'

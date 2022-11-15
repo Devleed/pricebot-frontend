@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles'
 
 export default styled('label')(({ theme }) => ({
-  fontSize: 10,
+  fontSize: 14,
   color: 'white',
 }))

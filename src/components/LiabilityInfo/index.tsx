@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { darken, styled } from '@mui/material/styles'
-import axios from '../../utils/axios'
 import { sixDigitsFormatter } from '@utils/'
 import moment from 'moment'
 import HomeBox from '@components/HomeBox'
 import OutlinedButton from '@components/Buttons/OutlinedButton'
+import useAxios from '../../hooks/useAxios'
 
 const AssetItem = styled('div')(({ theme }) => ({
   fontSize: 17,
@@ -23,6 +23,8 @@ type Props = {
 }
 
 const LiabilityInfo: React.FC<Props> = ({ liability, setLiability }) => {
+  const axios = useAxios()
+
   async function resetLiability() {
     const { data } = await axios.get('/reset-liability')
 

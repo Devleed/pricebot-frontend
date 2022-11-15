@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppSelector } from '@hooks/'
 import { useDispatch } from 'react-redux'
 import { chainIdToTxlistUrl } from '../../constants/etherscan'
-import axios from '../../utils/axios'
+import axios from 'axios'
 import { setTxHistory, Tx } from '@redux/slices/botSlice'
 
 const TableHeader = styled('div')(({ theme }) => ({

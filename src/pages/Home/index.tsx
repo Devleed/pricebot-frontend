@@ -10,7 +10,7 @@ import { useAppSelector } from '@hooks/'
 import StoneXVaultInfo from '@components/StoneXVaultInfo'
 import DEXInfo from '@components/DEXInfo'
 import LiabilityInfo from '@components/LiabilityInfo'
-import axios from '../../utils/axios'
+import useAxios from '../../hooks/useAxios'
 
 type Props = Record<string, unknown>
 
@@ -40,6 +40,8 @@ type PriceInfo = {
 const Home: FC<Props> = () => {
   const [priceInfo, setPriceInfo] = useState<PriceInfo | null>(null)
 
+  const axios = useAxios()
+
   const { provider } = useWeb3React()
 
   const dispatch = useDispatch()
@@ -53,7 +55,7 @@ const Home: FC<Props> = () => {
 
       setPriceInfo(data)
     })()
-  }, [])
+  }, [signature])
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
