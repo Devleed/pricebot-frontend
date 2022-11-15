@@ -22,7 +22,7 @@ const BoxContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  width: '50%',
+  width: 620,
 
   '& > *': {
     marginRight: 10,

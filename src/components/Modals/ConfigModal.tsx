@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
 import { Modal } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
 
@@ -9,10 +8,13 @@ import Input from '@components/Input'
 import ModalBody from '@components/ModalBody'
 import GoldenTitle from '@components/Titles/GoldenTitle'
 import { shortenAddress } from '@utils/'
-import { BOT_ADDRESS } from '../../constants/etherscan'
 import InputContainer from '@components/InputContainer'
 import Label from '@components/Label'
+import RadioGroup from '@components/RadioGroup'
+
+import { BOT_ADDRESS } from '../../constants/etherscan'
 import axios from '../../utils/axios'
+import { useAppSelector } from '@hooks/'
 
 type Props = {
   open: boolean
@@ -22,6 +24,7 @@ type Props = {
 interface BotConfig {
   triggerDeviation: number
   slippageTolerance: number
+  gasPrice: string
 }
 
 const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
@@ -29,32 +32,48 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
 
   const [triggerDeviation, setTriggerDeviation] = useState(0)
   const [slippageTolerance, setSlippageTolerance] = useState(0)
+  const [gasTierSelected, setGasTierSelected] = useState('average')
+
+  const signature = useAppSelector(state => state.wallet.signature)
 
   async function updateBotConfig() {
-    const { data } = await axios.patch(`bot/config/update/${chainId}`, {
-      triggerDeviation,
-      slippageTolerance,
-    })
+    const { data } = await axios.patch(
+      `bot/config/update/1`,
+      {
+        triggerDeviation,
+        slippageTolerance,
+        gasPrice: gasTierSelected,
+      },
+      {
+        headers: {
+          'x-vrs-signature': signature!,
+        },
+      },
+    )
 
     setTriggerDeviation(data.triggerDeviation)
     setSlippageTolerance(data.slippageTolerance)
+    setGasTierSelected(data.gasPrice)
   }
 
   useEffect(() => {
-    if (chainId) {
+    if (signature) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
-        const { data }: { data: BotConfig } = await axios.get(
-          `bot/config/${chainId}`,
-        )
+        const { data }: { data: BotConfig } = await axios.get(`bot/config/1`, {
+          headers: {
+            'x-vrs-signature': signature,
+          },
+        })
 
         console.log('data -', data)
 
         setTriggerDeviation(data.triggerDeviation)
         setSlippageTolerance(data.slippageTolerance)
+        setGasTierSelected(data.gasPrice)
       })()
     }
-  }, [chainId])
+  }, [signature])
 
   return (
     <Modal
@@ -86,7 +105,16 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
               name="ST"
             />
           </InputContainer>
-          <GoldButton style={{ marginTop: 50 }} onClick={updateBotConfig}>
+
+          <div>
+            <Label htmlFor="ST">Gas fees</Label>
+            <RadioGroup
+              selected={gasTierSelected}
+              setSelected={setGasTierSelected}
+            />
+          </div>
+
+          <GoldButton style={{ marginTop: 20 }} onClick={updateBotConfig}>
             Update
           </GoldButton>
         </Form>
