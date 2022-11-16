@@ -21,8 +21,8 @@ const DEXInfo: React.FC<Props> = ({ price, reserves }) => {
         <span style={{ fontSize: 14 }}>GOLD/USDC</span>
       </Price>
       <Price style={{ marginTop: 20 }}>
-        Max Supply: {sixDigitsFormatter(reserves)}{' '}
-        <span style={{ fontSize: 14 }}>GOLD</span>
+        {sixDigitsFormatter(reserves)}{' '}
+        <span style={{ fontSize: 14 }}>GOLD supply</span>
       </Price>
     </HomeBox>
   )
