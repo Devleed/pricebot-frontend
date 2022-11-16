@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { darken, styled } from '@mui/material/styles'
+import React from 'react'
+import { styled } from '@mui/material/styles'
 import { sixDigitsFormatter } from '@utils/'
-import moment from 'moment'
 import HomeBox from '@components/HomeBox'
 
 const Price = styled('div')<{ size?: number }>(({ theme, size }) => ({
@@ -17,9 +16,9 @@ type Props = {
 const StoneXVaultInfo: React.FC<Props> = ({ price, reserves }) => {
   return (
     <HomeBox title={'StoneX Vault'}>
-      <Price>{sixDigitsFormatter(price)} USD</Price>
+      <Price>{sixDigitsFormatter(price)} USD/oz</Price>
       <Price style={{ marginTop: 20 }}>
-        {sixDigitsFormatter(reserves)} GOLD
+        {sixDigitsFormatter(reserves)} Oz GOLD
       </Price>
     </HomeBox>
   )
