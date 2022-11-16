@@ -48,7 +48,7 @@ const TransactionHistory = () => {
   }, [chainId, txList])
 
   return (
-    <div>
+    <div style={{ width: 1320 }}>
       <h2>Transaction History</h2>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <TableHeader>

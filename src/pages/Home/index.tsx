@@ -17,6 +17,9 @@ type Props = Record<string, unknown>
 
 const Body = styled('div')(({ theme }) => ({
   padding: '20px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 }))
 
 const BoxContainer = styled('div')(({ theme }) => ({
