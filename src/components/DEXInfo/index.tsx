@@ -16,9 +16,13 @@ type Props = {
 const DEXInfo: React.FC<Props> = ({ price, reserves }) => {
   return (
     <HomeBox title={'DEX'}>
-      <Price>{sixDigitsFormatter(price)} GOLD/USDC</Price>
+      <Price>
+        {sixDigitsFormatter(price)}{' '}
+        <span style={{ fontSize: 14 }}>GOLD/USDC</span>
+      </Price>
       <Price style={{ marginTop: 20 }}>
-        Max Supply: {sixDigitsFormatter(reserves)} GOLD
+        Max Supply: {sixDigitsFormatter(reserves)}{' '}
+        <span style={{ fontSize: 14 }}>GOLD</span>
       </Price>
     </HomeBox>
   )

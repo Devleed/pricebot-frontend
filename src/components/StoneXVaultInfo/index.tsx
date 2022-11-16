@@ -16,9 +16,12 @@ type Props = {
 const StoneXVaultInfo: React.FC<Props> = ({ price, reserves }) => {
   return (
     <HomeBox title={'StoneX Vault'}>
-      <Price>{sixDigitsFormatter(price)} USD/oz</Price>
+      <Price>
+        {sixDigitsFormatter(price)} <span style={{ fontSize: 14 }}>USD/oz</span>
+      </Price>
       <Price style={{ marginTop: 20 }}>
-        {sixDigitsFormatter(reserves)} Oz GOLD
+        {sixDigitsFormatter(reserves)}{' '}
+        <span style={{ fontSize: 14 }}>oz GOLD</span>
       </Price>
     </HomeBox>
   )
