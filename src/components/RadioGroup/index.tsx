@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 
+import './index.css'
+
 const Container = styled('div')(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: '33% 33% 33%',
