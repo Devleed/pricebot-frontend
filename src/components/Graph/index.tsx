@@ -1,18 +1,59 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useAppSelector } from '@hooks/'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
 import { sixDigitsFormatter } from '@utils/'
 import moment from 'moment'
+import { Tx } from '@redux/slices/botSlice'
 
 const Graph = () => {
   const txList = useAppSelector(state => state.bot.txHistory)
 
-  const xAxis = useMemo(() => {
-    return txList.map(tx => Number(tx.timeStamp) * 1000)
+  const separatedTxList = useMemo(() => {
+    const today: Tx[] = [],
+      yesterday: Tx[] = []
+
+    txList.forEach(tx => {
+      if (Number(tx.timeStamp) * 1000 > Date.now() - 86400) {
+        // tx occured in 24 hrs
+        today.push(tx)
+      } else {
+        // tx occured before 24 hrs
+        yesterday.push(tx)
+      }
+    })
+
+    return { today, yesterday }
   }, [txList.length])
 
-  console.log('x -', xAxis)
+  const xAxis = useMemo(() => {
+    return separatedTxList.today.map(tx => Number(tx.timeStamp) * 1000)
+  }, [separatedTxList.today.length])
+
+  const totalGoldValueTradedToday = useMemo(() => {
+    return separatedTxList.today.reduce((acc, cur) => {
+      return acc + Math.abs(cur.goldUSD)
+    }, 0)
+  }, [separatedTxList.today.length])
+
+  const difference = useMemo(() => {
+    // (today - yesterday) / today * 100
+    const totalGoldValueTradedYesterday = separatedTxList.yesterday.reduce(
+      (acc, cur) => {
+        return acc + Math.abs(cur.goldUSD)
+      },
+      0,
+    )
+
+    const percentageDifference =
+      ((totalGoldValueTradedToday - totalGoldValueTradedYesterday) /
+        totalGoldValueTradedToday) *
+      100
+
+    return [Infinity, -Infinity].includes(percentageDifference)
+      ? parseInt(String(percentageDifference).replace('Infinity', '100'))
+      : percentageDifference
+  }, [totalGoldValueTradedToday, separatedTxList.yesterday.length])
 
   const series = [
     {
@@ -129,15 +170,7 @@ const Graph = () => {
     },
   }
 
-  const totalGoldValueTraded = useMemo(() => {
-    return sixDigitsFormatter(
-      txList.reduce((acc, cur) => {
-        console.log('cc', cur.goldUSD)
-
-        return acc + Math.abs(cur.goldUSD)
-      }, 0),
-    )
-  }, [txList])
+  console.log('doff', difference)
 
   return (
     <div
@@ -156,7 +189,10 @@ const Graph = () => {
           marginLeft: 20,
         }}
       >
-        ${totalGoldValueTraded}
+        ${sixDigitsFormatter(totalGoldValueTradedToday)}
+        <span style={{ fontSize: 11, color: 'red', marginLeft: 10 }}>
+          -100%
+        </span>
       </div>
       <div
         style={{

@@ -29,14 +29,12 @@ const TxList = styled('div')(({ theme }) => ({
 const TransactionHistory = () => {
   const axios = useAxios()
 
-  const { provider, account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   // const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
 
   const txList = useAppSelector(state => state.bot.txHistory)
 
   const dispatch = useDispatch()
-
-  console.log('account -', account, provider)
 
   useEffect(() => {
     if (chainId && txList.length === 0) {
