@@ -4,9 +4,8 @@ import Transaction from '@components/Transaction'
 import { useWeb3React } from '@web3-react/core'
 import { useAppSelector } from '@hooks/'
 import { useDispatch } from 'react-redux'
-import { chainIdToTxlistUrl } from '../../constants/etherscan'
-import axios from 'axios'
 import { setTxHistory, Tx } from '@redux/slices/botSlice'
+import useAxios from '../../hooks/useAxios'
 
 const TableHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -22,9 +21,14 @@ const TableHeader = styled('div')(({ theme }) => ({
 }))
 const TxList = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
+  borderBottomLeftRadius: 10,
+  borderBottomRightRadius: 10,
+  paddingBottom: 10,
 }))
 
 const TransactionHistory = () => {
+  const axios = useAxios()
+
   const { provider, account, chainId } = useWeb3React()
   // const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
 
@@ -38,17 +42,9 @@ const TransactionHistory = () => {
     if (chainId && txList.length === 0) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
-        const { data }: { data: { result: Tx[] } } = await axios.get(
-          chainIdToTxlistUrl[chainId as keyof typeof chainIdToTxlistUrl],
-        )
+        const { data }: { data: Tx[] } = await axios.get('bot/config/txs')
 
-        dispatch(
-          setTxHistory(
-            data.result.sort(
-              (a, b) => Number(b.timeStamp) - Number(a.timeStamp),
-            ),
-          ),
-        )
+        dispatch(setTxHistory(data))
       })()
     }
   }, [chainId, txList])

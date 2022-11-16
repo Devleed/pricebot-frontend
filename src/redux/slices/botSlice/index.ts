@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ConnectionType } from '../../../connection'
 
 export type Tx = {
   hash: string
@@ -8,6 +7,10 @@ export type Tx = {
   txreceipt_status: string
   value: string
   from: string
+  ETH: number
+  GOLD: number
+  goldUSD: number
+  method: string
 }
 
 export type Assets = {

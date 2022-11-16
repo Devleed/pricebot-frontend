@@ -11,6 +11,7 @@ import StoneXVaultInfo from '@components/StoneXVaultInfo'
 import DEXInfo from '@components/DEXInfo'
 import LiabilityInfo from '@components/LiabilityInfo'
 import useAxios from '../../hooks/useAxios'
+import Graph from '@components/Graph'
 
 type Props = Record<string, unknown>
 
@@ -80,7 +81,13 @@ const Home: FC<Props> = () => {
   return (
     <div className="app_container">
       <Body>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
           <BoxContainer>
             <BotAssets />
             <LiabilityInfo
@@ -102,7 +109,9 @@ const Home: FC<Props> = () => {
               />
             </div>
           </BoxContainer>
-          <div></div>
+          <div>
+            <Graph />
+          </div>
         </div>
         <TransactionHistory />
       </Body>
