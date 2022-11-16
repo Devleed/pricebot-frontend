@@ -10,6 +10,9 @@ import ModalBody from '@components/ModalBody'
 import GoldenTitle from '@components/Titles/GoldenTitle'
 import { shortenAddress } from '@utils/'
 import { BOT_ADDRESS } from '../../constants/etherscan'
+import ButtonWithLoader, {
+  ButtonTypes,
+} from '@components/Buttons/ButtonWithLoader'
 
 type Props = {
   open: boolean
@@ -18,10 +21,12 @@ type Props = {
 
 const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const { provider, account } = useWeb3React()
+  const [loading, setLoading] = useState(false)
 
   const [ethVal, setEthVal] = useState('')
 
   async function transferETH() {
+    setLoading(true)
     if (provider && account) {
       const gasPrice = await provider.getGasPrice()
 
@@ -40,6 +45,7 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
 
       console.log(transferResult)
     }
+    setLoading(false)
   }
 
   return (
@@ -63,14 +69,14 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
             }
             placeholder="ETH"
           />
-          <GoldButton
-            style={{
-              marginTop: 20,
-            }}
+
+          <ButtonWithLoader
+            style={{ marginTop: 20 }}
+            text="Fund"
+            type={ButtonTypes.FILLED}
             onClick={transferETH}
-          >
-            Fund
-          </GoldButton>
+            loading={loading}
+          />
         </Form>
       </ModalBody>
     </Modal>

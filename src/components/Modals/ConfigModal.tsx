@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal } from '@mui/material'
+import { CircularProgress, Modal } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
 
 import GoldButton from '@components/Buttons/GoldButton'
@@ -15,6 +15,10 @@ import RadioGroup from '@components/RadioGroup'
 import { BOT_ADDRESS } from '../../constants/etherscan'
 import { useAppSelector } from '@hooks/'
 import useAxios from '../../hooks/useAxios'
+import Loader from '@components/Loader'
+import ButtonWithLoader, {
+  ButtonTypes,
+} from '@components/Buttons/ButtonWithLoader'
 
 type Props = {
   open: boolean
@@ -30,15 +34,16 @@ interface BotConfig {
 const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const axios = useAxios()
 
-  const { chainId } = useWeb3React()
-
   const [triggerDeviation, setTriggerDeviation] = useState(0)
   const [slippageTolerance, setSlippageTolerance] = useState(0)
   const [gasTierSelected, setGasTierSelected] = useState('average')
+  const [loading, setLoading] = useState(false)
 
   const signature = useAppSelector(state => state.wallet.signature)
 
   async function updateBotConfig() {
+    setLoading(true)
+
     const { data } = await axios.patch(`bot/config/update/1`, {
       triggerDeviation,
       slippageTolerance,
@@ -48,6 +53,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
     setTriggerDeviation(data.triggerDeviation)
     setSlippageTolerance(data.slippageTolerance)
     setGasTierSelected(data.gasPrice)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -104,9 +110,13 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
             />
           </div>
 
-          <GoldButton style={{ marginTop: 20 }} onClick={updateBotConfig}>
-            Update
-          </GoldButton>
+          <ButtonWithLoader
+            style={{ marginTop: 20 }}
+            text="Update"
+            type={ButtonTypes.FILLED}
+            onClick={updateBotConfig}
+            loading={loading}
+          />
         </Form>
       </ModalBody>
     </Modal>
