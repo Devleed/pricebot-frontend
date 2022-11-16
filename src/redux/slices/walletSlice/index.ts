@@ -17,7 +17,7 @@ export const walletSlice = createSlice({
     setSelectedWallet: (state, action: PayloadAction<ConnectionType>) => {
       state.selectedWallet = action.payload
     },
-    setSignature: (state, action: PayloadAction<string>) => {
+    setSignature: (state, action: PayloadAction<string | null>) => {
       state.signature = action.payload
     },
   },

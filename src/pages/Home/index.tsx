@@ -42,11 +42,6 @@ const Home: FC<Props> = () => {
   const [priceInfo, setPriceInfo] = useState<PriceInfo | null>(null)
 
   const axios = useAxios()
-
-  const { provider } = useWeb3React()
-
-  const dispatch = useDispatch()
-
   const signature = useAppSelector(state => state.wallet.signature)
 
   useEffect(() => {
@@ -57,24 +52,6 @@ const Home: FC<Props> = () => {
       setPriceInfo(data)
     })()
   }, [signature])
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ;(async () => {
-      if (!signature && provider) {
-        const signer = provider?.getSigner()
-
-        const timeConstant = 86400
-
-        const time = Math.floor(Math.floor(Date.now() / 1000) / timeConstant)
-        const hash = keccak256(time.toString()).toString('hex')
-
-        const messageSignature = await signer?.signMessage(hash)
-
-        dispatch(setSignature(messageSignature))
-      }
-    })()
-  }, [provider, signature])
 
   if (!priceInfo) return null
 

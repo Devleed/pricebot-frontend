@@ -7,6 +7,7 @@ import useOrderedConnections from '../../hooks/useOrderedConnections'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Configuration from '@pages/Configuration'
 import Navbar from '@components/Navbar'
+import Router from '@components/Router'
 
 type Props = unknown
 
@@ -27,13 +28,7 @@ const Web3Provider: FC<Props> = () => {
 
   return (
     <Web3ReactProvider connectors={connectors} key={key}>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/configure" element={<Configuration />} />
-        </Routes>
-      </BrowserRouter>
+      <Router />
     </Web3ReactProvider>
   )
 }

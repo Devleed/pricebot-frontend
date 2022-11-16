@@ -7,7 +7,7 @@ const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderRadius: 10,
   width: 300,
-  height: 229,
+  height: 263,
 }))
 
 type Props = {

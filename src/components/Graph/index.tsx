@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAppSelector } from '@hooks/'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
@@ -8,9 +8,15 @@ import moment from 'moment'
 const Graph = () => {
   const txList = useAppSelector(state => state.bot.txHistory)
 
+  const xAxis = useMemo(() => {
+    return txList.map(tx => Number(tx.timeStamp) * 1000)
+  }, [txList.length])
+
+  console.log('x -', xAxis)
+
   const series = [
     {
-      name: 'Volume',
+      name: 'Trading Volume',
       data: txList.map(tx => tx.goldUSD),
     },
   ]
@@ -83,7 +89,10 @@ const Graph = () => {
         show: false,
       },
       labels: {
-        show: false,
+        show: true,
+        formatter: function (value, timestamp, opts) {
+          return moment(xAxis[Number(value)]).format('h:mm a')
+        },
       },
       axisBorder: {
         show: true,
@@ -94,7 +103,10 @@ const Graph = () => {
     },
     yaxis: {
       labels: {
-        show: false,
+        show: true,
+        formatter: function (val, index) {
+          return `$${sixDigitsFormatter(val)}`
+        },
       },
     },
     tooltip: {
@@ -134,7 +146,7 @@ const Graph = () => {
         height: '100%',
         backgroundColor: '#191915',
         borderRadius: 10,
-        width: 600,
+        width: 700,
       }}
     >
       <div
