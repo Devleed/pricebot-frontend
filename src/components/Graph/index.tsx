@@ -58,7 +58,7 @@ const Graph = () => {
   const series = [
     {
       name: 'Trading Volume',
-      data: txList.map(tx => tx.goldUSD),
+      data: separatedTxList.today.map(tx => tx.goldUSD),
     },
   ]
 
@@ -114,7 +114,7 @@ const Graph = () => {
       },
     },
     noData: {
-      text: 'No Data Available',
+      text: 'No transactions made today',
       align: 'center',
       verticalAlign: 'middle',
       offsetX: 0,
@@ -122,7 +122,6 @@ const Graph = () => {
       style: {
         color: undefined,
         fontSize: '14px',
-        fontFamily: 'Poppins',
       },
     },
     xaxis: {
@@ -169,8 +168,6 @@ const Graph = () => {
       },
     },
   }
-
-  console.log('doff', difference)
 
   return (
     <div
