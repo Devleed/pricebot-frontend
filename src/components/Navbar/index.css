@@ -1,3 +1,11 @@
 .walletconnect-modal__base {
   margin-top: 24px !important;
 }
+
+.walletconnect-qrcode__image {
+  height: 300px !important;
+}
+
+.walletconnect-modal__mobile__toggle {
+  color: black;
+}
