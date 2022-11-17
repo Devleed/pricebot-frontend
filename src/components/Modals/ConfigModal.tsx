@@ -19,6 +19,7 @@ import Loader from '@components/Loader'
 import ButtonWithLoader, {
   ButtonTypes,
 } from '@components/Buttons/ButtonWithLoader'
+import Toast from './Toast'
 
 type Props = {
   open: boolean
@@ -39,6 +40,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const [slippageTolerance, setSlippageTolerance] = useState(0)
   const [gasTierSelected, setGasTierSelected] = useState('average')
   const [loading, setLoading] = useState(false)
+  const [toastOpen, setToastOpen] = useState(true)
   const [tderrorMessage, setTdErrorMessage] = useState<string | null>(null)
   const [sterrorMessage, setStErrorMessage] = useState<string | null>(null)
 
@@ -47,7 +49,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   async function updateBotConfig() {
     if (triggerDeviation > 100 || triggerDeviation < 0)
       setTdErrorMessage('Invalid value.')
-    else if (slippageTolerance > 100 || slippageTolerance < 0)
+    else if (slippageTolerance > 100 || slippageTolerance <= 0)
       setStErrorMessage('Invalid value.')
     else {
       setLoading(true)
@@ -57,6 +59,8 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
         slippageTolerance,
         gasPrice: gasTierSelected,
       })
+
+      setToastOpen(true)
 
       setTriggerDeviation(data.triggerDeviation)
       setSlippageTolerance(data.slippageTolerance)
@@ -87,64 +91,71 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   }, [signature])
 
   return (
-    <Modal
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <ModalBody>
-        <GoldenTitle style={{ marginTop: 20 }}>
-          Configure {shortenAddress(BOT_ADDRESS || '', 2, 4)}
-        </GoldenTitle>
-        <Form>
-          <InputContainer>
-            <Label htmlFor="TD">Trigger Deviation</Label>
-            <Input
-              type="number"
-              onChange={e => setTriggerDeviation(Number(e.target.value))}
-              value={triggerDeviation}
-              name="TD"
-            />
-            {tderrorMessage ? (
-              <div style={{ fontSize: 12, color: '#A18841' }}>
-                {tderrorMessage}
-              </div>
-            ) : null}
-          </InputContainer>
-          <InputContainer>
-            <Label htmlFor="ST">Slippage Tolerance</Label>
-            <Input
-              type="number"
-              onChange={e => setSlippageTolerance(Number(e.target.value))}
-              value={slippageTolerance}
-              name="ST"
-            />
-            {sterrorMessage ? (
-              <div style={{ fontSize: 12, color: '#A18841' }}>
-                {sterrorMessage}
-              </div>
-            ) : null}
-          </InputContainer>
+    <>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <ModalBody>
+          <GoldenTitle style={{ marginTop: 20 }}>
+            Configure {shortenAddress(BOT_ADDRESS || '', 2, 4)}
+          </GoldenTitle>
+          <Form>
+            <InputContainer>
+              <Label htmlFor="TD">Trigger Deviation</Label>
+              <Input
+                type="number"
+                onChange={e => setTriggerDeviation(Number(e.target.value))}
+                value={triggerDeviation}
+                name="TD"
+              />
+              {tderrorMessage ? (
+                <div style={{ fontSize: 12, color: '#A18841' }}>
+                  {tderrorMessage}
+                </div>
+              ) : null}
+            </InputContainer>
+            <InputContainer>
+              <Label htmlFor="ST">Slippage Tolerance</Label>
+              <Input
+                type="number"
+                onChange={e => setSlippageTolerance(Number(e.target.value))}
+                value={slippageTolerance}
+                name="ST"
+              />
+              {sterrorMessage ? (
+                <div style={{ fontSize: 12, color: '#A18841' }}>
+                  {sterrorMessage}
+                </div>
+              ) : null}
+            </InputContainer>
 
-          <div>
-            <Label htmlFor="ST">Gas fees</Label>
-            <RadioGroup
-              selected={gasTierSelected}
-              setSelected={setGasTierSelected}
-            />
-          </div>
+            <div>
+              <Label htmlFor="ST">Gas fees</Label>
+              <RadioGroup
+                selected={gasTierSelected}
+                setSelected={setGasTierSelected}
+              />
+            </div>
 
-          <ButtonWithLoader
-            style={{ marginTop: 20 }}
-            text="Update"
-            type={ButtonTypes.FILLED}
-            onClick={updateBotConfig}
-            loading={loading}
-          />
-        </Form>
-      </ModalBody>
-    </Modal>
+            <ButtonWithLoader
+              style={{ marginTop: 20 }}
+              text="Update"
+              type={ButtonTypes.FILLED}
+              onClick={updateBotConfig}
+              loading={loading}
+            />
+          </Form>
+        </ModalBody>
+      </Modal>
+      <Toast
+        open={toastOpen}
+        setOpen={setToastOpen}
+        message="Updated successfully"
+      />
+    </>
   )
 }
 

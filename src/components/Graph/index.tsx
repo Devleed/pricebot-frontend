@@ -5,6 +5,7 @@ import { ApexOptions } from 'apexcharts'
 import { sixDigitsFormatter } from '@utils/'
 import moment from 'moment'
 import { Tx } from '@redux/slices/botSlice'
+import GoldenTitle from '@components/Titles/GoldenTitle'
 
 const Graph = () => {
   const txList = useAppSelector(state => state.bot.txHistory)
@@ -191,30 +192,43 @@ const Graph = () => {
     >
       <div
         style={{
-          fontSize: 35,
-          fontWeight: 'bold',
-          marginLeft: 20,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
         }}
       >
-        ${sixDigitsFormatter(totalGoldValueTradedToday)}
-        <span
-          style={{
-            fontSize: 14,
-            color: difference < 0 ? '#e32636' : '#4BB543',
-            marginLeft: 10,
-          }}
-        >
-          {renderDifference()}%
-        </span>
-      </div>
-      <div
-        style={{
-          fontSize: 12,
-          marginLeft: 20,
-          color: '#A18841',
-        }}
-      >
-        {moment(Date.now()).format('MMM Do YY, h:mm a')}
+        <div>
+          <div
+            style={{
+              fontSize: 35,
+              fontWeight: 'bold',
+              marginLeft: 20,
+            }}
+          >
+            ${sixDigitsFormatter(totalGoldValueTradedToday)}
+            <span
+              style={{
+                fontSize: 14,
+                color: difference < 0 ? '#e32636' : '#4BB543',
+                marginLeft: 10,
+              }}
+            >
+              {renderDifference()}%
+            </span>
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              marginLeft: 20,
+              color: '#A18841',
+            }}
+          >
+            {moment(Date.now()).format('MMM Do YY, h:mm a')}
+          </div>
+        </div>
+
+        <GoldenTitle style={{ marginRight: 20 }}>24 hours volume</GoldenTitle>
       </div>
 
       <Chart

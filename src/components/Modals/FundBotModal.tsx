@@ -67,9 +67,9 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
 
         const signer = provider.getSigner()
 
-        const transferResult = await signer.sendTransaction(tx)
+        await signer.sendTransaction(tx)
 
-        console.log(transferResult)
+        setOpen(false)
       }
       setLoading(false)
     } catch (e) {

@@ -40,6 +40,8 @@ const Router = () => {
         dispatch(setSignature(sessionStorage.getItem('signature')))
       } else {
         dispatch(setSignature(null))
+        console.log('getting sig')
+
         signAndSetSignature()
       }
     } else {
