@@ -60,7 +60,7 @@ const Graph = () => {
   const series = [
     {
       name: 'Trading Volume',
-      data: separatedTxList.today.map(tx => tx.goldUSD),
+      data: separatedTxList.today.map(tx => tx.goldUSD).reverse(),
     },
   ]
 
