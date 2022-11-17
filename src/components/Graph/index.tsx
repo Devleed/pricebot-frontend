@@ -14,10 +14,10 @@ const Graph = () => {
       yesterday: Tx[] = []
 
     txList.forEach(tx => {
-      if (Number(tx.timeStamp) * 1000 > Date.now() - 86400) {
+      if (Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7) {
         // tx occured in 24 hrs
         today.push(tx)
-      } else {
+      } else if (Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7 * 2) {
         // tx occured before 24 hrs
         yesterday.push(tx)
       }
@@ -25,6 +25,8 @@ const Graph = () => {
 
     return { today, yesterday }
   }, [txList.length])
+
+  console.log(separatedTxList)
 
   const xAxis = useMemo(() => {
     return separatedTxList.today.map(tx => Number(tx.timeStamp) * 1000)
@@ -194,7 +196,7 @@ const Graph = () => {
             marginLeft: 10,
           }}
         >
-          {difference}%
+          {sixDigitsFormatter(difference)}%
         </span>
       </div>
       <div
