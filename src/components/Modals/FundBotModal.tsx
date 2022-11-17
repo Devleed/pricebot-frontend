@@ -29,11 +29,11 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const [ethVal, setEthVal] = useState('')
 
   useEffect(() => {
-    return () => {
+    if (!open) {
       setErrorMessage(null)
       setEthVal('')
     }
-  }, [])
+  }, [open])
 
   useEffect(() => {
     if (ethVal === '' || parseFloat(ethVal) <= 0) setErrorMessage(null)
@@ -85,9 +85,7 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <ModalBody>
-        <GoldenTitle>
-          Fund {shortenAddress(BOT_ADDRESS || '', 2, 4)}
-        </GoldenTitle>
+        <GoldenTitle>Fund Bot</GoldenTitle>
         <Form>
           <Input
             type="text"

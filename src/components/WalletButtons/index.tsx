@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Connector } from '@web3-react/types'
 import {
   ConnectionType,
@@ -6,12 +6,13 @@ import {
   getConnectionName,
 } from '../../connection'
 import { useAppDispatch } from '@hooks/'
-import { setSelectedWallet, setSignature } from '@redux/slices/walletSlice'
+import { setSelectedWallet } from '@redux/slices/walletSlice'
 import { useWeb3React } from '@web3-react/core'
 import GoldButton from '@components/Buttons/GoldButton'
 import styled from '@emotion/styled'
 import OutlinedButton from '@components/Buttons/OutlinedButton'
 import { shortenAddress } from '@utils/'
+import Toast from '@components/Modals/Toast'
 
 const ButtonsContainer = styled('div')(() => ({
   display: 'flex',
@@ -26,6 +27,8 @@ type Props = {
 }
 
 const WalletButtons: FC<Props> = props => {
+  const [modalOpen, setModalOpen] = useState(false)
+
   const { account, connector } = useWeb3React()
 
   const dispatch = useAppDispatch()
@@ -79,39 +82,48 @@ const WalletButtons: FC<Props> = props => {
   }
 
   return (
-    <ButtonsContainer>
-      {!account ? (
-        props.wallets.map((walletType, i) => {
-          return (
-            <GoldButton
-              onClick={() => tryActivation(getConnection(walletType).connector)}
-              key={walletType}
-              style={{ marginRight: props.wallets.length - 1 === i ? 0 : 10 }}
+    <>
+      <ButtonsContainer>
+        {!account ? (
+          props.wallets.map((walletType, i) => {
+            return (
+              <GoldButton
+                onClick={() =>
+                  tryActivation(getConnection(walletType).connector)
+                }
+                key={walletType}
+                style={{ marginRight: props.wallets.length - 1 === i ? 0 : 10 }}
+              >
+                Connect {getConnectionName(walletType)}
+              </GoldButton>
+            )
+          })
+        ) : (
+          <>
+            <OutlinedButton
+              style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+              onClick={() => {
+                navigator.clipboard.writeText(account)
+                setModalOpen(true)
+              }}
             >
-              Connect {getConnectionName(walletType)}
+              {shortenAddress(account, 3, 6)}
+            </OutlinedButton>
+            <GoldButton
+              style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+              onClick={onDisconnectClick}
+            >
+              Disconnect
             </GoldButton>
-          )
-        })
-      ) : (
-        <>
-          <OutlinedButton
-            style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
-            onClick={() => {
-              navigator.clipboard.writeText(account)
-              alert('Address copied to clipboard')
-            }}
-          >
-            {shortenAddress(account, 3, 6)}
-          </OutlinedButton>
-          <GoldButton
-            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-            onClick={onDisconnectClick}
-          >
-            Disconnect
-          </GoldButton>
-        </>
-      )}
-    </ButtonsContainer>
+          </>
+        )}
+      </ButtonsContainer>
+      <Toast
+        open={modalOpen}
+        setOpen={setModalOpen}
+        message="Message copied to clipboard."
+      />
+    </>
   )
 }
 

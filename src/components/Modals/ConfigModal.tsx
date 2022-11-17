@@ -78,7 +78,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   }, [slippageTolerance])
 
   useEffect(() => {
-    if (signature) {
+    if (signature && open) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
         const { data }: { data: BotConfig } = await axios.get(`bot/config/1`)
@@ -88,7 +88,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
         setGasTierSelected(data.gasPrice)
       })()
     }
-  }, [signature])
+  }, [signature, open])
 
   return (
     <>
@@ -99,9 +99,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
         aria-describedby="modal-modal-description"
       >
         <ModalBody>
-          <GoldenTitle style={{ marginTop: 20 }}>
-            Configure {shortenAddress(BOT_ADDRESS || '', 2, 4)}
-          </GoldenTitle>
+          <GoldenTitle style={{ marginTop: 20 }}>Configure Bot</GoldenTitle>
           <Form>
             <InputContainer>
               <Label htmlFor="TD">Trigger Deviation</Label>

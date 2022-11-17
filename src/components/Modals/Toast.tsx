@@ -27,10 +27,12 @@ type Props = {
 
 const Toast: React.FC<Props> = ({ open, setOpen, message }) => {
   useEffect(() => {
-    setTimeout(() => {
-      setOpen(false)
-    }, 5000)
-  }, [])
+    if (open) {
+      setTimeout(() => {
+        setOpen(false)
+      }, 5000)
+    }
+  }, [open])
 
   if (!open) return null
 

@@ -87,7 +87,7 @@ const BotAssets = () => {
   }, [goldContract, usdtContract, provider])
 
   return (
-    <HomeBox title={`${shortenAddress(BOT_ADDRESS, 2, 4)} Assets`}>
+    <HomeBox title={`Bot Assets`}>
       <AssetsList>
         <AssetItem
           href={
