@@ -40,7 +40,7 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const [slippageTolerance, setSlippageTolerance] = useState(0)
   const [gasTierSelected, setGasTierSelected] = useState('average')
   const [loading, setLoading] = useState(false)
-  const [toastOpen, setToastOpen] = useState(true)
+  const [toastOpen, setToastOpen] = useState(false)
   const [tderrorMessage, setTdErrorMessage] = useState<string | null>(null)
   const [sterrorMessage, setStErrorMessage] = useState<string | null>(null)
 
