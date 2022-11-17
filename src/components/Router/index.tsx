@@ -74,7 +74,7 @@ const Router = () => {
   if (showNetworkError) {
     return (
       <WrongNetworkErrorContainer>
-        <div>Unsupported Network, please switch to Ethereum Mainnet</div>{' '}
+        <div>Unsupported Network, please switch to Goerli Testnet</div>{' '}
         <GoldButton
           style={{ marginTop: 10 }}
           onClick={() =>

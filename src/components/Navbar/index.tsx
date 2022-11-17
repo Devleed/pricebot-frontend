@@ -15,6 +15,8 @@ import AssetAddressModal from '@components/Modals/AssetAddressModal'
 import GoldButton from '@components/Buttons/GoldButton'
 import useAxios from '../../hooks/useAxios'
 
+import './index.css'
+
 const NavbarTheme = styled('div')(({ theme }) => ({
   padding: '20px',
   display: 'flex',

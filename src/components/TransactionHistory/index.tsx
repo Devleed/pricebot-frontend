@@ -51,7 +51,7 @@ const TransactionHistory = () => {
 
   return (
     <div style={{ width: 1320 }}>
-      <h2>Transaction History</h2>
+      <h2>Recent Transactions</h2>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <TableHeader>
           <h4>Txn Hash</h4>

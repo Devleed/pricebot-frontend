@@ -171,6 +171,14 @@ const Graph = () => {
     },
   }
 
+  function renderDifference() {
+    const val = sixDigitsFormatter(difference)
+
+    if (val === 'NaN') return '0'
+
+    return val
+  }
+
   return (
     <div
       style={{
@@ -196,7 +204,7 @@ const Graph = () => {
             marginLeft: 10,
           }}
         >
-          {sixDigitsFormatter(difference)}%
+          {renderDifference()}%
         </span>
       </div>
       <div

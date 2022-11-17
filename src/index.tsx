@@ -5,6 +5,8 @@ import { store } from '@redux/configureStore'
 import Web3Provider from '@components/Web3Provider'
 import MuiTheme from './theme'
 
+import './index.css'
+
 // WalletConnect does not work with webpack 5 i.e. react@18+
 // This is required to make it work
 import { Buffer } from 'buffer'
