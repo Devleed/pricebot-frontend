@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-extra-semi */
 export const shortenAddress = (address: string, subStart = 8, subEnd = 8) => {
   return (
     address.substring(0, subStart) +
@@ -71,5 +73,75 @@ export const truncate = (num: number) => {
     }
   } else {
     return num
+  }
+}
+type ChainChangeRequestType = (chainId: string, cb: () => void) => Promise<void>
+type AddChainToMetamaskType = (
+  chainData: ChainData,
+  cb: () => void,
+) => Promise<void>
+
+interface ChainData {
+  chainId: string
+  chainName: string
+  rpcUrls: string[]
+  nativeCurrency: {
+    name: string
+    symbol: string
+    decimals: number
+  }
+  blockExplorerUrls: string[]
+}
+
+export const chainChangeRequest: ChainChangeRequestType = async (
+  chainId,
+  cb,
+) => {
+  ;(window as any).ethereum
+    .request({
+      method: 'eth_requestAccounts',
+    })
+    .then(function () {
+      ;(window as any).ethereum
+        .request({
+          method: 'wallet_switchEthereumChain',
+          params: [
+            {
+              chainId,
+            },
+          ],
+        })
+        .then(() => {
+          cb()
+        })
+        .catch((error: any) => {
+          console.error(error)
+        })
+    })
+    .catch((error: any) => {
+      console.log(error)
+    })
+}
+export const addChainToMetamask: AddChainToMetamaskType = async (
+  chainData,
+  cb,
+) => {
+  try {
+    ;(window as any).ethereum
+      .request({
+        method: 'eth_requestAccounts',
+      })
+      .then(function () {
+        ;(window as any).ethereum
+          .request({
+            method: 'wallet_addEthereumChain',
+            params: [chainData],
+          })
+          .then(() => {
+            cb()
+          })
+      })
+  } catch (error) {
+    console.log(error)
   }
 }

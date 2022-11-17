@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { CircularProgress } from '@mui/material'
 import React from 'react'
 import GoldButton from './GoldButton'
@@ -14,6 +15,7 @@ type Props = {
   text: string
   onClick: (e: any) => void
   style?: React.CSSProperties
+  disabled?: boolean
 }
 
 const ButtonWithLoader: React.FC<Props> = ({
@@ -22,6 +24,7 @@ const ButtonWithLoader: React.FC<Props> = ({
   text,
   onClick,
   style,
+  disabled,
 }) => {
   const children = loading ? (
     <CircularProgress
@@ -33,7 +36,11 @@ const ButtonWithLoader: React.FC<Props> = ({
   )
 
   return type === ButtonTypes.FILLED ? (
-    <GoldButton style={style} onClick={onClick}>
+    <GoldButton
+      style={style}
+      onClick={!disabled ? onClick : () => {}}
+      disabled={disabled}
+    >
       {children}
     </GoldButton>
   ) : (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '@components/Navbar'
 import Configuration from '@pages/Configuration'
 import Home from '@pages/Home'
@@ -8,10 +8,27 @@ import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
 import keccak256 from 'keccak256'
 import { setSignature } from '@redux/slices/walletSlice'
+import GoldButton from '@components/Buttons/GoldButton'
+import { chainChangeRequest } from '@utils/'
+import { styled } from '@mui/material/styles'
+
+const WrongNetworkErrorContainer = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  height: '100vh',
+  width: '100vw',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: theme.palette.primary.main,
+  fontSize: 16,
+}))
 
 const Router = () => {
+  const [showNetworkError, setShowNetworkError] = useState<boolean | null>(null)
+
   const signature = useAppSelector(state => state.wallet.signature)
-  const { provider, account } = useWeb3React()
+  const { provider, account, chainId } = useWeb3React()
 
   const dispatch = useDispatch()
 
@@ -30,6 +47,14 @@ const Router = () => {
     }
   }, [provider, account])
 
+  useEffect(() => {
+    console.log('chain -', chainId)
+    if (chainId) {
+      if (chainId !== 1 && chainId !== 5) setShowNetworkError(true)
+      else setShowNetworkError(false)
+    }
+  }, [chainId])
+
   const signAndSetSignature = async () => {
     const signer = provider!.getSigner()
 
@@ -44,6 +69,24 @@ const Router = () => {
     sessionStorage.setItem('account', account!)
 
     dispatch(setSignature(messageSignature))
+  }
+
+  if (showNetworkError) {
+    return (
+      <WrongNetworkErrorContainer>
+        <div>Unsupported Network, please switch to Ethereum Mainnet</div>{' '}
+        <GoldButton
+          style={{ marginTop: 10 }}
+          onClick={() =>
+            chainChangeRequest(`0x${Number(5).toString(16)}`, () =>
+              console.log('changed'),
+            )
+          }
+        >
+          Switch Network
+        </GoldButton>
+      </WrongNetworkErrorContainer>
+    )
   }
 
   return (

@@ -39,31 +39,45 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const [slippageTolerance, setSlippageTolerance] = useState(0)
   const [gasTierSelected, setGasTierSelected] = useState('average')
   const [loading, setLoading] = useState(false)
+  const [tderrorMessage, setTdErrorMessage] = useState<string | null>(null)
+  const [sterrorMessage, setStErrorMessage] = useState<string | null>(null)
 
   const signature = useAppSelector(state => state.wallet.signature)
 
   async function updateBotConfig() {
-    setLoading(true)
+    if (triggerDeviation > 100 || triggerDeviation < 0)
+      setTdErrorMessage('Invalid value.')
+    else if (slippageTolerance > 100 || slippageTolerance < 0)
+      setStErrorMessage('Invalid value.')
+    else {
+      setLoading(true)
 
-    const { data } = await axios.patch(`bot/config/update/1`, {
-      triggerDeviation,
-      slippageTolerance,
-      gasPrice: gasTierSelected,
-    })
+      const { data } = await axios.patch(`bot/config/update/1`, {
+        triggerDeviation,
+        slippageTolerance,
+        gasPrice: gasTierSelected,
+      })
 
-    setTriggerDeviation(data.triggerDeviation)
-    setSlippageTolerance(data.slippageTolerance)
-    setGasTierSelected(data.gasPrice)
-    setLoading(false)
+      setTriggerDeviation(data.triggerDeviation)
+      setSlippageTolerance(data.slippageTolerance)
+      setGasTierSelected(data.gasPrice)
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    setTdErrorMessage(null)
+  }, [triggerDeviation])
+
+  useEffect(() => {
+    setStErrorMessage(null)
+  }, [slippageTolerance])
 
   useEffect(() => {
     if (signature) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(async () => {
         const { data }: { data: BotConfig } = await axios.get(`bot/config/1`)
-
-        console.log('data -', data)
 
         setTriggerDeviation(data.triggerDeviation)
         setSlippageTolerance(data.slippageTolerance)
@@ -92,6 +106,11 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
               value={triggerDeviation}
               name="TD"
             />
+            {tderrorMessage ? (
+              <div style={{ fontSize: 12, color: '#A18841' }}>
+                {tderrorMessage}
+              </div>
+            ) : null}
           </InputContainer>
           <InputContainer>
             <Label htmlFor="ST">Slippage Tolerance</Label>
@@ -101,6 +120,11 @@ const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
               value={slippageTolerance}
               name="ST"
             />
+            {sterrorMessage ? (
+              <div style={{ fontSize: 12, color: '#A18841' }}>
+                {sterrorMessage}
+              </div>
+            ) : null}
           </InputContainer>
 
           <div>

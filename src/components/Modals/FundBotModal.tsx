@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { Modal } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
@@ -13,6 +13,9 @@ import { BOT_ADDRESS } from '../../constants/etherscan'
 import ButtonWithLoader, {
   ButtonTypes,
 } from '@components/Buttons/ButtonWithLoader'
+import { useContract } from '../../hooks/useContract'
+import { Erc20 } from '@contracts/types'
+import { AvailableContracts } from '../../hooks/useContract/types'
 
 type Props = {
   open: boolean
@@ -22,30 +25,56 @@ type Props = {
 const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
   const { provider, account } = useWeb3React()
   const [loading, setLoading] = useState(false)
-
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [ethVal, setEthVal] = useState('')
 
-  async function transferETH() {
-    setLoading(true)
-    if (provider && account) {
-      const gasPrice = await provider.getGasPrice()
-
-      const tx = {
-        from: account,
-        to: '0x09050568Ed00123dA7d9250c8A57AD393EeD8307',
-        value: ethers.utils.parseEther(String(ethVal)),
-        nonce: provider.getTransactionCount(account, 'latest'),
-        gasLimit: 21000,
-        gasPrice: ethers.utils.hexlify(gasPrice.toNumber()),
-      }
-
-      const signer = provider.getSigner()
-
-      const transferResult = await signer.sendTransaction(tx)
-
-      console.log(transferResult)
+  useEffect(() => {
+    return () => {
+      setErrorMessage(null)
+      setEthVal('')
     }
-    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (ethVal === '' || parseFloat(ethVal) <= 0) setErrorMessage(null)
+  }, [ethVal])
+
+  async function checkFunds() {
+    const userBalance = await provider!.getBalance(account!)
+
+    if (parseFloat(userBalance.toString()) / 10 ** 18 < parseFloat(ethVal)) {
+      setErrorMessage('Insufficient Balance')
+      return false
+    }
+
+    return true
+  }
+
+  async function transferETH() {
+    try {
+      setLoading(true)
+      if (provider && account && ethVal && (await checkFunds())) {
+        const gasPrice = await provider.getGasPrice()
+
+        const tx = {
+          from: account,
+          to: '0x09050568Ed00123dA7d9250c8A57AD393EeD8307',
+          value: ethers.utils.parseEther(String(ethVal)),
+          nonce: provider.getTransactionCount(account, 'latest'),
+          gasLimit: 21000,
+          gasPrice: ethers.utils.hexlify(gasPrice.toNumber()),
+        }
+
+        const signer = provider.getSigner()
+
+        const transferResult = await signer.sendTransaction(tx)
+
+        console.log(transferResult)
+      }
+      setLoading(false)
+    } catch (e) {
+      setLoading(false)
+    }
   }
 
   return (
@@ -69,6 +98,9 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
             }
             placeholder="ETH"
           />
+          {errorMessage ? (
+            <div style={{ fontSize: 12, color: '#A18841' }}>{errorMessage}</div>
+          ) : null}
 
           <ButtonWithLoader
             style={{ marginTop: 20 }}
@@ -76,6 +108,7 @@ const FundBotModal: React.FC<Props> = ({ open, setOpen }) => {
             type={ButtonTypes.FILLED}
             onClick={transferETH}
             loading={loading}
+            disabled={ethVal === '' || parseFloat(ethVal) <= 0}
           />
         </Form>
       </ModalBody>
