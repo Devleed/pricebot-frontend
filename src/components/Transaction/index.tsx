@@ -1,13 +1,13 @@
 import OutlinedButton from '@components/Buttons/OutlinedButton'
 import { styled, darken } from '@mui/material/styles'
 import { Tx } from '@redux/slices/botSlice'
-import { shortenAddress } from '@utils/'
+import { shortenAddress, sixDigitsFormatter } from '@utils/'
 import moment from 'moment'
 import React from 'react'
 
 const SingleTxStyle = styled('div')(({ theme }) => ({
   //   marginBottom: 5,
-  paddingVertical: 5,
+  // paddingVertical: 5,
   display: 'flex',
   flexDirection: 'row',
   cursor: 'pointer',
@@ -17,6 +17,7 @@ const SingleTxStyle = styled('div')(({ theme }) => ({
   //   border: '1px solid gray',
   transition: 'all 0.5s ease',
   padding: 10,
+  paddingLeft: 30,
   '&:hover': {
     // borderColor: theme.palette.primary.main,
     backgroundColor: darken(theme.palette.background.paper, 0.5),
@@ -40,11 +41,7 @@ const Transaction: React.FC<Props> = ({ tx }) => {
       <div>{moment(Number(tx.timeStamp) * 1000).fromNow()}</div>
       <div>{shortenAddress(tx.from)}</div>
       <div>{shortenAddress(tx.to)}</div>
-      <div>
-        {Number(tx.value) > 0
-          ? (Number(tx.value) / 10 ** 18).toFixed(4)
-          : tx.value}
-      </div>
+      <div>${sixDigitsFormatter(tx.goldUSD)}</div>
       <div>
         <OutlinedButton
           style={{

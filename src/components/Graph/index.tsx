@@ -189,7 +189,7 @@ const Graph = () => {
         ${sixDigitsFormatter(totalGoldValueTradedToday)}
         <span
           style={{
-            fontSize: 11,
+            fontSize: 14,
             color: difference < 0 ? '#e32636' : '#4BB543',
             marginLeft: 10,
           }}

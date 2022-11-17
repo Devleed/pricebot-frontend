@@ -15,6 +15,8 @@ const TableHeader = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderTopLeftRadius: 10,
   borderTopRightRadius: 10,
+  paddingLeft: 30,
+
   '& h4': {
     width: '17%',
   },

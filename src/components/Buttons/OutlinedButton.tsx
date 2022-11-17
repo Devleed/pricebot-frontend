@@ -8,6 +8,7 @@ export default styled('button')(({ theme }) => ({
   cursor: 'pointer',
   borderRadius: '5px',
   transition: 'all 0.25s ease',
+  height: 35,
 
   '&:hover': {
     color: `${darken(theme.palette.primary.main, 0.25)}`,

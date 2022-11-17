@@ -25,10 +25,11 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-interface BotConfig {
+export interface BotConfig {
   triggerDeviation: number
   slippageTolerance: number
   gasPrice: string
+  active: boolean
 }
 
 const ConfigBotModal: React.FC<Props> = ({ open, setOpen }) => {
