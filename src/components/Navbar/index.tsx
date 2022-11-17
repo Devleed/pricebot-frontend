@@ -7,6 +7,7 @@ import OutlinedButton from '@components/Buttons/OutlinedButton'
 import FundBotModal from '@components/Modals/FundBotModal'
 import ConfigBotModal from '@components/Modals/ConfigModal'
 import logos from '@assets/'
+import { useWeb3React } from '@web3-react/core'
 
 const NavbarTheme = styled('div')(({ theme }) => ({
   padding: '20px',
@@ -17,13 +18,9 @@ const NavbarTheme = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-const Title = styled('span')(({ theme }) => ({
-  fontSize: '22px',
-  color: theme.palette.primary.main,
-  cursor: 'pointer',
-}))
-
 const Navbar = () => {
+  const { account } = useWeb3React()
+
   const [fundModalOpen, setFundModalOpen] = useState(false)
   const [configureModalOpen, setConfigureModalOpen] = useState(false)
 
@@ -32,27 +29,34 @@ const Navbar = () => {
   return (
     <NavbarTheme>
       <div
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
       >
         <img
           onClick={() => navigate('/')}
           src={logos.Logo}
           style={{ width: 180, cursor: 'pointer' }}
         />
-        <OutlinedButton
-          style={{ marginLeft: 20 }}
-          onClick={() => setConfigureModalOpen(true)}
-        >
-          Configure
-        </OutlinedButton>
-        <OutlinedButton
-          style={{ marginLeft: 20 }}
-          onClick={() => setFundModalOpen(true)}
-        >
-          Fund
-        </OutlinedButton>
+        {account ? (
+          <>
+            <OutlinedButton
+              style={{ marginLeft: 20 }}
+              onClick={() => setConfigureModalOpen(true)}
+            >
+              Configure
+            </OutlinedButton>
+            <OutlinedButton
+              style={{ marginLeft: 20 }}
+              onClick={() => setFundModalOpen(true)}
+            >
+              Fund
+            </OutlinedButton>
+          </>
+        ) : null}
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         {/* <Select
           labelId="demo-simple-select-label"

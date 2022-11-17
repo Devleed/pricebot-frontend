@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import { Connector } from '@web3-react/types'
 import {
   ConnectionType,
@@ -30,11 +30,23 @@ const WalletButtons: FC<Props> = props => {
 
   const dispatch = useAppDispatch()
 
+  useEffect(() => {
+    const connectionType = sessionStorage.getItem('connection-type')
+
+    if (connectionType) {
+      const connector = getConnection(
+        connectionType as ConnectionType,
+      ).connector
+
+      tryActivation(connector)
+    }
+  }, [])
+
   const tryActivation = useCallback(
     async (connector: Connector) => {
       const connectionType = getConnection(connector).type
 
-      console.log('connection tyoe -', connectionType, connector)
+      sessionStorage.setItem('connection-type', connectionType)
 
       try {
         //  setPendingConnector(connector)
@@ -58,6 +70,10 @@ const WalletButtons: FC<Props> = props => {
   )
 
   function onDisconnectClick() {
+    sessionStorage.removeItem('connection-type')
+    sessionStorage.removeItem('account')
+    sessionStorage.removeItem('signature')
+
     connector.deactivate && connector.deactivate()
     connector.resetState && connector.resetState()
   }

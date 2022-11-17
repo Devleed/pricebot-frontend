@@ -16,11 +16,18 @@ const Router = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('account', account)
+    if (account && provider) {
+      const previousConnectedAccount = sessionStorage.getItem('account')
 
-    dispatch(setSignature(null))
-
-    if (provider && account) signAndSetSignature()
+      if (previousConnectedAccount === account) {
+        dispatch(setSignature(sessionStorage.getItem('signature')))
+      } else {
+        dispatch(setSignature(null))
+        signAndSetSignature()
+      }
+    } else {
+      dispatch(setSignature(null))
+    }
   }, [provider, account])
 
   const signAndSetSignature = async () => {
@@ -32,6 +39,9 @@ const Router = () => {
     const hash = keccak256(time.toString()).toString('hex')
 
     const messageSignature = await signer.signMessage(hash)
+
+    sessionStorage.setItem('signature', messageSignature)
+    sessionStorage.setItem('account', account!)
 
     dispatch(setSignature(messageSignature))
   }
