@@ -6,7 +6,7 @@ import {
   getConnectionName,
 } from '../../connection'
 import { useAppDispatch } from '@hooks/'
-import { setSelectedWallet } from '@redux/slices/walletSlice'
+import { setSelectedWallet, setSignature } from '@redux/slices/walletSlice'
 import { useWeb3React } from '@web3-react/core'
 import GoldButton from '@components/Buttons/GoldButton'
 import styled from '@emotion/styled'
