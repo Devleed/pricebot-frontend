@@ -11,9 +11,9 @@ interface Factory {
 }
 
 export enum AvailableContracts {
-  USDT = '0x89b913d392e7E336E5de3D5424Cf6Dc2B30F1b72',
+  USDT = '0xaDdF66e47873102Ec6e809aF57f407B3e865a790',
   WETH = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
-  GOLD = '0xB619e873167f00abea1D07988D387b513501D1Ef',
+  GOLD = '0xa782EFE83e99271de6264764c9Cd05F58D68A4cD',
 }
 
 export const addressToFactoryMapping: { [key: string]: Factory } = {

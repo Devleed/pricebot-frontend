@@ -73,9 +73,9 @@ const BotAssets = () => {
 
         dispatch(
           setAssets({
-            GOLD: goldBalance
-              .div(ethers.BigNumber.from(String(Math.pow(10, goldDecimals))))
-              .toString(),
+            GOLD: String(
+              parseFloat(goldBalance.toString()) / Math.pow(10, goldDecimals),
+            ),
             USDT: usdtBalance
               .div(ethers.BigNumber.from(String(Math.pow(10, usdtDecimals))))
               .toString(),

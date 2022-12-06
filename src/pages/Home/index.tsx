@@ -31,7 +31,6 @@ const BoxContainer = styled('div')(({ theme }) => ({
 
 type PriceInfo = {
   stoneXPrice: number
-  stoneXReserves: number
   dexGoldPrice: number
   liability: {
     current: number
@@ -50,6 +49,8 @@ const Home: FC<Props> = () => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
       const { data }: { data: PriceInfo } = await axios.get('/price')
+
+      console.log('price info -', data)
 
       setPriceInfo(data)
     })()
@@ -79,10 +80,7 @@ const Home: FC<Props> = () => {
               }
             />
             <div style={{ marginTop: 10 }}>
-              <StoneXVaultInfo
-                price={priceInfo.stoneXPrice}
-                reserves={priceInfo.stoneXReserves}
-              />
+              <StoneXVaultInfo price={priceInfo.stoneXPrice} />
             </div>
             <div style={{ marginTop: 10 }}>
               <DEXInfo

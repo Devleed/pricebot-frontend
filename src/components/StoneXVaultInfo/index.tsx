@@ -10,18 +10,13 @@ const Price = styled('div')<{ size?: number }>(({ theme, size }) => ({
 
 type Props = {
   price: number
-  reserves: number
 }
 
-const StoneXVaultInfo: React.FC<Props> = ({ price, reserves }) => {
+const StoneXVaultInfo: React.FC<Props> = ({ price }) => {
   return (
     <HomeBox title={'StoneX Vault'}>
       <Price>
         {sixDigitsFormatter(price)} <span style={{ fontSize: 14 }}>USD/oz</span>
-      </Price>
-      <Price style={{ marginTop: 20 }}>
-        {sixDigitsFormatter(reserves)}{' '}
-        <span style={{ fontSize: 14 }}>oz GOLD</span>
       </Price>
     </HomeBox>
   )
