@@ -1,4 +1,4 @@
-export const APPLICATION_URL = 'http://44.212.190.75/'
-export const APPLICATION_NAME = 'xord app'
+export const APPLICATION_URL = 'https://botfrontend.bullionfx.com/'
+export const APPLICATION_NAME = 'Bot Frontend'
 
-export const SERVER_URL = 'http://44.212.190.75:4999/'
+export const SERVER_URL = 'https://botbackend.bullionfx.com/'

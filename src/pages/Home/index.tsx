@@ -33,7 +33,10 @@ type PriceInfo = {
   stoneXPrice: number
   stoneXReserves: number
   dexGoldPrice: number
-  liability: number
+  liability: {
+    current: number
+    previous: number
+  }
   goldMinted: number
 }
 
@@ -67,9 +70,12 @@ const Home: FC<Props> = () => {
           <BoxContainer>
             <BotAssets />
             <LiabilityInfo
-              liability={priceInfo.liability}
+              liability={priceInfo.liability.current}
               setLiability={newLiability =>
-                setPriceInfo({ ...priceInfo, liability: newLiability })
+                setPriceInfo({
+                  ...priceInfo,
+                  liability: { ...priceInfo.liability, current: newLiability },
+                })
               }
             />
             <div style={{ marginTop: 10 }}>
