@@ -40,6 +40,9 @@ const AssetAddressModal: React.FC<Props> = ({ open, setOpen }) => {
         <GoldenTitle>Asset Addresses</GoldenTitle>
         <AssetAddressList>
           <div>
+            <AssetAddressItem>BOT:</AssetAddressItem> {BOT_ADDRESS}
+          </div>
+          <div>
             <AssetAddressItem>ETH:</AssetAddressItem> {AvailableContracts.WETH}
           </div>
           <div>

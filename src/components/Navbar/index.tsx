@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled } from '@mui/material/styles'
+import { darken, styled } from '@mui/material/styles'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import StopIcon from '@mui/icons-material/Stop'
 
@@ -16,6 +16,26 @@ import GoldButton from '@components/Buttons/GoldButton'
 import useAxios from '../../hooks/useAxios'
 
 import './index.css'
+
+const OutlinedLink = styled('a')(({ theme }) => ({
+  backgroundColor: 'transparent',
+  color: theme.palette.primary.main,
+  border: `1px solid ${theme.palette.primary.main}`,
+  padding: '10px',
+  cursor: 'pointer',
+  borderRadius: '5px',
+  transition: 'all 0.25s ease',
+  height: 35,
+  textDecoration: 'none',
+  display: 'flex',
+  flexDirection: 'row',
+  fontSize: 13,
+
+  '&:hover': {
+    color: `${darken(theme.palette.primary.main, 0.25)}`,
+    border: `1px solid ${darken(theme.palette.primary.main, 0.25)}`,
+  },
+}))
 
 const NavbarTheme = styled('div')(({ theme }) => ({
   padding: '20px',
@@ -89,6 +109,16 @@ const Navbar = () => {
               onClick={() => setAssetAddressesModalOpen(true)}
             >
               View Addresses
+            </OutlinedButton>
+            <OutlinedButton style={{ marginLeft: 20 }}>
+              <a
+                href="https://app.safe.global/gor:0x76C30458005b932F54dED2d6a6406B0EEa4DfC25/transactions/queue"
+                style={{ textDecoration: 'none', color: '#A18841' }}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View safe
+              </a>
             </OutlinedButton>
             <GoldButton
               style={{
