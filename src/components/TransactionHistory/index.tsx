@@ -44,7 +44,7 @@ const TransactionHistory = () => {
       ;(async () => {
         const { data }: { data: Tx[] } = await axios.get('bot/config/txs')
 
-        dispatch(setTxHistory(data.reverse()))
+        dispatch(setTxHistory(data))
       })()
     }
   }, [chainId, txList])

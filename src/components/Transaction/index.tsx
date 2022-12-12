@@ -41,7 +41,7 @@ const Transaction: React.FC<Props> = ({ tx }) => {
       <div>{moment(Number(tx.timeStamp) * 1000).fromNow()}</div>
       <div>{shortenAddress(tx.from)}</div>
       <div>{shortenAddress(tx.to)}</div>
-      <div>${sixDigitsFormatter(tx.goldUSD)}</div>
+      <div>${sixDigitsFormatter(tx.goldUSD || 0)}</div>
       <div>
         <OutlinedButton
           style={{
