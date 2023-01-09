@@ -7,7 +7,7 @@ export default () => {
 
   const axiosInstance = axios.create({
     baseURL: SERVER_URL,
-    timeout: 10000,
+    timeout: 100000,
     headers: { 'X-Application-Name': APPLICATION_NAME },
   })
 

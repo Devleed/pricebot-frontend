@@ -1,7 +1,7 @@
 import { AvailableContracts } from '../hooks/useContract/types'
 
 const ETHERSCAN_API_KEY = 'H9RXI75DMRJRYDAT4ZZZTF5GW75541D5PT'
-export const BOT_ADDRESS = '0x00Bbf132C91BF979aBc5f87bE0F21A073b8A4F4C'
+export const BOT_ADDRESS = '0xc424C43E934E80332dB5EF6d32a1fa2c03C1da6b'
 
 export const MAINNET_ETHERSCAN_URL = `https://api.etherscan.io`
 

@@ -16,6 +16,7 @@ import GoldButton from '@components/Buttons/GoldButton'
 import useAxios from '../../hooks/useAxios'
 
 import './index.css'
+import { useAppSelector } from '../../hooks'
 
 const OutlinedLink = styled('a')(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -57,6 +58,8 @@ const Navbar = () => {
 
   const navigate = useNavigate()
 
+  const signature = useAppSelector(state => state.wallet.signature)
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
@@ -90,7 +93,7 @@ const Navbar = () => {
           src={logos.Logo}
           style={{ width: 180, cursor: 'pointer' }}
         />
-        {account && botActive !== null ? (
+        {signature && botActive !== null ? (
           <>
             <OutlinedButton
               style={{ marginLeft: 20 }}
@@ -112,7 +115,7 @@ const Navbar = () => {
             </OutlinedButton>
             <OutlinedButton style={{ marginLeft: 20 }}>
               <a
-                href="https://app.safe.global/gor:0x76C30458005b932F54dED2d6a6406B0EEa4DfC25/transactions/queue"
+                href="https://app.safe.global/gor:0x807FE1Cd4a6fD4F2821fa3c26A648840Dd7A4A84/transactions/queue"
                 style={{ textDecoration: 'none', color: '#A18841' }}
                 target="_blank"
                 rel="noreferrer"

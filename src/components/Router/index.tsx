@@ -11,6 +11,7 @@ import { setSignature } from '@redux/slices/walletSlice'
 import GoldButton from '@components/Buttons/GoldButton'
 import { chainChangeRequest } from '@utils/'
 import { styled } from '@mui/material/styles'
+import { OWNER_ADDRESSES } from '../../constants/application'
 
 const WrongNetworkErrorContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -33,7 +34,13 @@ const Router = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (account && provider) {
+    if (
+      account &&
+      provider &&
+      OWNER_ADDRESSES.findIndex(
+        ownerAddress => ownerAddress.toLowerCase() === account.toLowerCase(),
+      ) !== -1
+    ) {
       const previousConnectedAccount = sessionStorage.getItem('account')
 
       if (previousConnectedAccount === account) {
@@ -117,7 +124,9 @@ const Router = () => {
               color: '#A18841',
             }}
           >
-            Connect Wallet To View Data
+            {account && !signature
+              ? `Connect with an owner account`
+              : `Connect Wallet To View Data`}
           </div>
         </div>
       )}
