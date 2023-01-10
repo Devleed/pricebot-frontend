@@ -7,7 +7,7 @@ export type Tx = {
   txreceipt_status: string
   value: string
   from: string
-  ETH: number
+  USDC: number
   GOLD: number
   goldUSD: number
   method: string
@@ -15,7 +15,7 @@ export type Tx = {
 
 export type Assets = {
   ETH: string
-  USDT: string
+  USDC: string
   GOLD: string
 }
 
@@ -28,7 +28,7 @@ const initialState: BotState = {
   txHistory: [],
   assets: {
     ETH: '0',
-    USDT: '0',
+    USDC: '0',
     GOLD: '0',
   },
 }

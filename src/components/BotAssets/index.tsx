@@ -47,22 +47,22 @@ const BotAssets = () => {
   const dispatch = useAppDispatch()
 
   const goldContract = useContract<Erc20>(AvailableContracts.GOLD)
-  const usdtContract = useContract<Erc20>(AvailableContracts.USDT)
+  const usdcContract = useContract<Erc20>(AvailableContracts.USDC)
 
   useEffect(() => {
     console.log('use effe involed')
 
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
-      if (goldContract && usdtContract) {
+      if (goldContract && usdcContract) {
         console.log('in if')
 
-        const [goldBalance, usdtBalance, goldDecimals, usdtDecimals] =
+        const [goldBalance, usdcBalance, goldDecimals, usdcDecimals] =
           await Promise.all([
             goldContract.balanceOf(BOT_ADDRESS),
-            usdtContract.balanceOf(BOT_ADDRESS),
+            usdcContract.balanceOf(BOT_ADDRESS),
             goldContract.decimals(),
-            usdtContract.decimals(),
+            usdcContract.decimals(),
           ])
 
         const ethBalance =
@@ -76,24 +76,22 @@ const BotAssets = () => {
             GOLD: String(
               parseFloat(goldBalance.toString()) / Math.pow(10, goldDecimals),
             ),
-            USDT: usdtBalance
-              .div(ethers.BigNumber.from(String(Math.pow(10, usdtDecimals))))
+            USDC: usdcBalance
+              .div(ethers.BigNumber.from(String(Math.pow(10, usdcDecimals))))
               .toString(),
             ETH: String(ethBalance) || '0',
           }),
         )
       }
     })()
-  }, [goldContract, usdtContract, provider])
+  }, [goldContract, usdcContract, provider])
 
   return (
     <HomeBox title={`Bot Assets`}>
       <AssetsList>
         <AssetItem
           href={
-            ASSET_ADDRESSES_URLS[
-              (chainId || 5) as keyof typeof ASSET_ADDRESSES_URLS
-            ].GOLD
+            ASSET_ADDRESSES_URLS[1 as keyof typeof ASSET_ADDRESSES_URLS].GOLD
           }
           target="_blank"
           referrerPolicy="no-referrer"
@@ -106,13 +104,13 @@ const BotAssets = () => {
             href={
               ASSET_ADDRESSES_URLS[
                 (chainId || 5) as keyof typeof ASSET_ADDRESSES_URLS
-              ].USDT
+              ].USDC
             }
             target="_blank"
             referrerPolicy="no-referrer"
             style={{ marginRight: 5 }}
           >
-            {sixDigitsFormatter(parseFloat(botAssets.USDT))} USDT
+            {sixDigitsFormatter(parseFloat(botAssets.USDC))} USDC
           </AssetItem>
           <AssetItem
             href={

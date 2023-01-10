@@ -46,7 +46,7 @@ const AssetAddressModal: React.FC<Props> = ({ open, setOpen }) => {
             <AssetAddressItem>ETH:</AssetAddressItem> {AvailableContracts.WETH}
           </div>
           <div>
-            <AssetAddressItem>USDT:</AssetAddressItem> {AvailableContracts.USDT}
+            <AssetAddressItem>USDC:</AssetAddressItem> {AvailableContracts.USDC}
           </div>
           <div>
             <AssetAddressItem>GOLD:</AssetAddressItem> {AvailableContracts.GOLD}

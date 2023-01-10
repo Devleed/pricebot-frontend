@@ -115,7 +115,7 @@ const Navbar = () => {
             </OutlinedButton>
             <OutlinedButton style={{ marginLeft: 20 }}>
               <a
-                href="https://app.safe.global/gor:0x807FE1Cd4a6fD4F2821fa3c26A648840Dd7A4A84/transactions/queue"
+                href="https://app.safe.global/eth:0x807FE1Cd4a6fD4F2821fa3c26A648840Dd7A4A84/transactions/queue"
                 style={{ textDecoration: 'none', color: '#A18841' }}
                 target="_blank"
                 rel="noreferrer"

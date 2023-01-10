@@ -87,7 +87,7 @@ const Configuration: FC<Props> = () => {
           <h2>Asset Addresses</h2>
           <div>
             <p>ETH: 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6</p>
-            <p>USDT: 0x89b913d392e7E336E5de3D5424Cf6Dc2B30F1b72</p>
+            <p>USDC: 0x89b913d392e7E336E5de3D5424Cf6Dc2B30F1b72</p>
             <p>GOLD: 0xB619e873167f00abea1D07988D387b513501D1Ef</p>
           </div>
         </div>

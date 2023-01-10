@@ -15,10 +15,16 @@ const Graph = () => {
       yesterday: Tx[] = []
 
     txList.forEach(tx => {
-      if (Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7) {
+      if (
+        Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7 &&
+        Number(tx.txreceipt_status) !== 0
+      ) {
         // tx occured in 24 hrs
         today.push(tx)
-      } else if (Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7 * 2) {
+      } else if (
+        Number(tx.timeStamp) * 1000 > Date.now() - 8.64e7 * 2 &&
+        Number(tx.txreceipt_status) !== 0
+      ) {
         // tx occured before 24 hrs
         yesterday.push(tx)
       }
@@ -35,7 +41,7 @@ const Graph = () => {
 
   const totalGoldValueTradedToday = useMemo(() => {
     return separatedTxList.today.reduce((acc, cur) => {
-      return acc + Math.abs(cur.goldUSD)
+      return acc + Math.abs(cur.USDC)
     }, 0)
   }, [separatedTxList.today.length])
 
@@ -43,7 +49,7 @@ const Graph = () => {
     // (today - yesterday) / today * 100
     const totalGoldValueTradedYesterday = separatedTxList.yesterday.reduce(
       (acc, cur) => {
-        return acc + Math.abs(cur.goldUSD)
+        return acc + Math.abs(cur.USDC)
       },
       0,
     )
@@ -61,7 +67,7 @@ const Graph = () => {
   const series = [
     {
       name: 'Trading Volume',
-      data: separatedTxList.today.map(tx => tx.goldUSD).reverse(),
+      data: separatedTxList.today.map(tx => tx.USDC).reverse(),
     },
   ]
 

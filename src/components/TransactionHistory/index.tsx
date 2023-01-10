@@ -32,7 +32,7 @@ const TransactionHistory = () => {
   const axios = useAxios()
 
   const { chainId } = useWeb3React()
-  // const tusdtContract = useContract<Erc20>(AvailableContracts.TUSDT)
+  // const tusdcContract = useContract<Erc20>(AvailableContracts.TUSDC)
 
   const txList = useAppSelector(state => state.bot.txHistory)
 
@@ -66,7 +66,7 @@ const TransactionHistory = () => {
             return (
               <a
                 style={{ outline: 'none', textDecoration: 'none' }}
-                href={`https://goerli.etherscan.io/tx/${tx.hash}`}
+                href={`https://etherscan.io/tx/${tx.hash}`}
                 target="_blank"
                 rel="noreferrer"
                 key={tx.hash}

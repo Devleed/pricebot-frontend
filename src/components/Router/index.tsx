@@ -59,7 +59,7 @@ const Router = () => {
   useEffect(() => {
     console.log('chain -', chainId)
     if (chainId) {
-      if (chainId !== 1 && chainId !== 5) setShowNetworkError(true)
+      if (chainId !== 1) setShowNetworkError(true)
       else setShowNetworkError(false)
     }
   }, [chainId])
@@ -83,11 +83,11 @@ const Router = () => {
   if (showNetworkError) {
     return (
       <WrongNetworkErrorContainer>
-        <div>Unsupported Network, please switch to Goerli Testnet</div>{' '}
+        <div>Unsupported Network, please switch to Ethereum Mainnet</div>{' '}
         <GoldButton
           style={{ marginTop: 10 }}
           onClick={() =>
-            chainChangeRequest(`0x${Number(5).toString(16)}`, () =>
+            chainChangeRequest(`0x${Number(1).toString(16)}`, () =>
               console.log('changed'),
             )
           }

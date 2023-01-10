@@ -19,8 +19,8 @@ export const ASSET_ADDRESSES_URLS = {
     GOLD: `${GOERLI_ETHERSCAN_URL.replace('api-', '')}/token/${
       AvailableContracts.GOLD
     }`,
-    USDT: `${GOERLI_ETHERSCAN_URL.replace('api-', '')}/token/${
-      AvailableContracts.USDT
+    USDC: `${GOERLI_ETHERSCAN_URL.replace('api-', '')}/token/${
+      AvailableContracts.USDC
     }`,
   },
   1: {
@@ -30,8 +30,8 @@ export const ASSET_ADDRESSES_URLS = {
     GOLD: `${MAINNET_ETHERSCAN_URL.replace('api-', '')}/token/${
       AvailableContracts.GOLD
     }`,
-    USDT: `${MAINNET_ETHERSCAN_URL.replace('api-', '')}/token/${
-      AvailableContracts.USDT
+    USDC: `${MAINNET_ETHERSCAN_URL.replace('api-', '')}/token/${
+      AvailableContracts.USDC
     }`,
   },
 }
