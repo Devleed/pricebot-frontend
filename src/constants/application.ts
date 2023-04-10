@@ -1,7 +1,8 @@
 export const APPLICATION_URL = 'https://botfrontend.bullionfx.com/'
 export const APPLICATION_NAME = 'Bot Frontend'
 
-export const SERVER_URL = 'https://botbackend.bullionfx.com/'
+// export const SERVER_URL = 'https://botbackend.bullionfx.com/'
+export const SERVER_URL = 'http://localhost:4999/'
 
 export const OWNER_ADDRESSES = [
   '0x60969F1CDC6c557954fA7128700a3090D146097A',

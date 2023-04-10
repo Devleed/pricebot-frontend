@@ -12,6 +12,7 @@ import GoldButton from '@components/Buttons/GoldButton'
 import { chainChangeRequest } from '@utils/'
 import { styled } from '@mui/material/styles'
 import { OWNER_ADDRESSES } from '../../constants/application'
+import useAxios from '../../hooks/useAxios'
 
 const WrongNetworkErrorContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -27,6 +28,7 @@ const WrongNetworkErrorContainer = styled('div')(({ theme }) => ({
 
 const Router = () => {
   const [showNetworkError, setShowNetworkError] = useState<boolean | null>(null)
+  const axios = useAxios()
 
   const signature = useAppSelector(state => state.wallet.signature)
   const { provider, account, chainId } = useWeb3React()
